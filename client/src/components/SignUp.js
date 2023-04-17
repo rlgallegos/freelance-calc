@@ -9,10 +9,22 @@ function SignUp(){
     })
     function handleSubmit(e) {
         e.preventDefault()
+        fetch('/signup', {
+            method: 'POST',
+            headers:  {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(res => {
+            console.log(res)
+        })
     }
     function handleChange(e) {
         setFormData({...formData, [e.target.name]: e.target.value})
     }
+
+    // console.log(formData)
 
     return(
         <div>
