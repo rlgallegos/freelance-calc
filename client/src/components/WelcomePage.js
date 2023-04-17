@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import '../App.css';
 import SignUp from './SignUp';
+import Login from './Login';
 
 function WelcomePage(){
 
@@ -20,6 +21,7 @@ function WelcomePage(){
                 <SignUp />
                 <h3>Already a member?</h3>
                 <h4>Log in below:</h4>
+                <Login />
             </div>
         </div>
     )

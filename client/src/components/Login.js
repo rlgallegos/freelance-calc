@@ -4,8 +4,7 @@ import '../App.css';
 function Login(){
     const [formData, setFormData] = useState({
         username: '',
-        password: '',
-        passwordConfirmation: ''
+        password: ''
     })
     function handleSubmit(e) {
         e.preventDefault()
