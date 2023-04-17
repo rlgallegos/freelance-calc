@@ -14,7 +14,7 @@ app.secret_key = 'bobbyisthebest'
 class Users(Resource):
     def get(self):
         users = User.query.all()
-        user_list = [user.to_dict(only=('username', 'password', 'token')) for user in users]
+        user_list = [user.to_dict(only=('username', 'token')) for user in users]
         return make_response(user_list, 200)
 
 
@@ -31,7 +31,6 @@ class UserByID(Resource):
 
     def post(self, id):
         pass
-
 
     def patch(self, id):
         user = User.query.filter(User.id == id).first()

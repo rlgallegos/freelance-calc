@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import '../App.css';
 
-function SignUp(){
+function Login(){
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -9,7 +9,7 @@ function SignUp(){
     })
     function handleSubmit(e) {
         e.preventDefault()
-        fetch('/signup', {
+        fetch('/login', {
             method: 'POST',
             headers:  {
                 'Content-Type': 'application/json'
@@ -24,18 +24,16 @@ function SignUp(){
         setFormData({...formData, [e.target.name]: e.target.value})
     }
 
-    // console.log(formData)
 
     return(
         <div>
             <form onSubmit={handleSubmit}>
                 <input name='username' value={formData['username']} onChange={handleChange} type='text' placeholder='Enter username' />
                 <input name='password' value={formData['password']} onChange={handleChange} type='text' placeholder='Enter password' />
-                <input name='passwordConfirmation' value={formData['passwordConfirmation']} onChange={handleChange} type='text' placeholder='Confirm password' />
                 <input type='submit' />
             </form>
         </div>
     )
 }
 
-export default SignUp;
+export default Login;

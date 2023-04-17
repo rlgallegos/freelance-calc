@@ -19,6 +19,7 @@ function App() {
           {/* no links for: Welcome Page & Signup */}
           <Link className='link' to='/home'>Home</Link>
           <Link className='link' to='/profile'>Profile</Link>
+          
         </nav>
 
       </header>
@@ -28,7 +29,6 @@ function App() {
         <Route path='/home' element={<Home />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/profile' element={<Profile />} />
-        
       </Routes>
 
     </div>
