@@ -15,8 +15,9 @@ function Login(){
             },
             body: JSON.stringify(formData)
         })
-        .then(res => {
-            console.log(res)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
         })
     }
     function handleChange(e) {

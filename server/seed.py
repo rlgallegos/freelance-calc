@@ -23,7 +23,7 @@ with app.app_context():
     for i in range (25):
         user = User(
             username = fake.name(),
-            password = fake.word(),
+            password_hash = fake.word(),
             token = fake.isbn10()
         )
         users.append(user)

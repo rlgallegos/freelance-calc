@@ -1,10 +1,25 @@
 import React, {useState, useEffect} from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import '../App.css';
-import Plaid from './Plaid';
 
 function Profile(){
+    const [userInfo, setUserInfo] = useState()
+    const navigate = useNavigate()
 
+    
+
+    useEffect(() => {
+        fetch('/check_session')
+        .then(res => {
+            if (res.ok) {
+                res.json().then(user => setUserInfo(user))
+            } else {
+                navigate('/')
+            }
+        })
+    }, [])
+
+    console.log(userInfo)
 
 
 
