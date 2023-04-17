@@ -6,6 +6,7 @@ import WelcomePage from './WelcomePage';
 import Home from './Home';
 import SignUp from './SignUp';
 import Profile from './Profile';
+import LogoutButton from './LogoutButton';
 
 function App() {
   return (
@@ -19,16 +20,16 @@ function App() {
           {/* no links for: Welcome Page & Signup */}
           <Link className='link' to='/home'>Home</Link>
           <Link className='link' to='/profile'>Profile</Link>
-          
+          <LogoutButton />
         </nav>
 
       </header>
 
       <Routes> 
-        <Route path='/' element={<WelcomePage />} />
         <Route path='/home' element={<Home />} />
-        <Route path='/signup' element={<SignUp />} />
+        {/* <Route path='/signup' element={<SignUp />} /> */}
         <Route path='/profile' element={<Profile />} />
+        <Route path='/' element={<WelcomePage />} />
       </Routes>
 
     </div>

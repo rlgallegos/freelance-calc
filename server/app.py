@@ -99,23 +99,38 @@ class CheckSession(Resource):
 class Login(Resource):
     def post(self):
         data = request.get_json()
+        print(data)
+
         user = User.query.filter(User.username == data['username']).first()
-        if not user or not user.authenticate(data['password']):
+        print(user.to_dict())
+        if user.authenticate(data['password']):
+            session['user_id'] = user.id
+            return user.to_dict(), 200    
+        else:
             return {'error': 'Unauthorized'}, 401
-        session['user_id'] = user.id
-        return make_response(user.to_dict(), 200)
 
 class Logout(Resource):
     def delete(self):
         session['user_id'] = None
         return {}, 204
 
-api.add_resource(Logout, '/logout')
-api.add_resource(Login, '/login')
-api.add_resource(CheckSession, '/check_session')
-api.add_resource(Signup, '/signup')
-api.add_resource(Users, '/users')
-api.add_resource(UserByID, '/users/<int:id>')
+api.add_resource(Logout, '/logout', endpoint='logout')
+api.add_resource(Login, '/login', endpoint='login')
+api.add_resource(CheckSession, '/check_session', endpoint='check_session')
+api.add_resource(Signup, '/signup', endpoint='signup')
+api.add_resource(Users, '/users', endpoint='users')
+api.add_resource(UserByID, '/users/<int:id>', endpoint='users_by_id')
+
+
+
+
+
+
+
+
+
+
+
 
 # @app.route("/create_link_token", methods=['POST'])
 # def create_link_token():
