@@ -19,16 +19,12 @@ function SignUp(){
             body: JSON.stringify(formData)
         })
         .then(res => {
-            console.log(res)
+            nagivate('/')
+
         })
     }
     function handleChange(e) {
         setFormData({...formData, [e.target.name]: e.target.value})
-    }
-
-    function handleClick(){
-        nagivate('/')
-        // PROBLEM: we want to validate the info before nagivation 
     }
 
     // console.log(formData)
@@ -36,13 +32,13 @@ function SignUp(){
     return(
         <div>
             <h1>
-                Sign in 
+                Sign Up!
             </h1>
             <form onSubmit={handleSubmit}>
                 <input name='username' value={formData['username']} onChange={handleChange} type='text' placeholder='Enter username' />
                 <input name='password' value={formData['password']} onChange={handleChange} type='text' placeholder='Enter password' />
                 <input name='passwordConfirmation' value={formData['passwordConfirmation']} onChange={handleChange} type='text' placeholder='Confirm password' />
-                <input type='submit' onClick={handleClick}/>
+                <input type='submit' />
             </form>
         </div>
     )

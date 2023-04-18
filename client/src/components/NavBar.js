@@ -6,7 +6,7 @@ import '../App.css';
 
 function NavBar(){
     return(
-        <div>
+        <div className='NavBar'>
             <header>
                 <h1>Finance Calulator</h1>
                 <nav>
