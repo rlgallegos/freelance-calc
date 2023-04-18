@@ -3,19 +3,20 @@ from flask_restful import Api, Resource
 from config import bcrypt, app
 # from flask_cors import CORS
 
-# # Plaid Imports
-# from plaid.model.link_token_create_request import LinkTokenCreateRequest
-# from plaid.model.link_token_create_request_user import LinkTokenCreateRequestUser
-# from plaid.model.products import Products
-# from plaid.model.country_code import CountryCode
 
 from models import db, User, Income, Category, Expense
+from plaid_helpers import update_expenses, update_income
 
 # CORS(app)
 
 api = Api(app)
 
 app.secret_key = 'bobbyisthebest'
+
+# @app.before_request
+#     def check_login:
+#         if not session['user_id'] and request.endpoint != 'signup':
+#             return {'error', 'Unauthorized'}, 401
 
 class Users(Resource):
     def get(self):
@@ -109,15 +110,52 @@ class Logout(Resource):
         return {}, 204
 
 
+class UpdateExpenses(Resource):
+    def get(self):
+        user = User.query.filter(User.id == 26).first()
+
+        # Clear previous expenses
+        Expense.query.filter(Expense.user_id == user.id).delete()
+        db.session.commit()
+
+        update_object = update_expenses("access-sandbox-453207de-d94f-448f-bb31-87754eb6d213")
+
+        expense_list = []
+        for key, value in update_object.items():
+            print(value)
+            new_exp = Expense(
+                user_id = user.id,
+                category_id = key,
+                amount = value
+            )
+            expense_list.append(new_exp)
+        print(expense_list)
+        db.session.add_all(expense_list)
+        db.session.commit()
+        return
+    
+class UpdateIncome(Resource):
+    def patch(self):
+        total_income = update_income("user-sandbox-7684898b-97aa-4e5f-91e9-82680cb20b0d")
+        print(total_income)
+        income = Income.query.filter(Income.user_id == 26).first()
+        setattr(income, 'monthly_total_income', total_income)
+        db.session.add(income)
+        db.session.commit()
+        return
+
+
+
+
 # Add Resources
+api.add_resource(UpdateIncome, '/update_income')
+api.add_resource(UpdateExpenses, '/update_expenses', endpoint='update_expenses')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Users, '/users', endpoint='users')
 api.add_resource(UserByID, '/users/<int:id>', endpoint='users_by_id')
-
-
 
 
 

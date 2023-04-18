@@ -9,6 +9,7 @@ flask-migrate = "*"
 sqlalchemy-serializer = "*"
 faker = "*"
 flask-bcrypt = "*"
+requests = "*"
 
 [dev-packages]
 

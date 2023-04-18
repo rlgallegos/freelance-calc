@@ -51,7 +51,7 @@ with app.app_context():
 
 
     print('Creating categories...')
-    category_options = ['Rent', 'Utilities', 'Phone Bill', 'Car Payment', 'Other', 'Groceries']
+    category_options = ['Food and Beverage', 'Rent', 'Utilities', 'Insurance', 'Billpay', 'Taxes']
 
     categories = []
     for option in category_options:
