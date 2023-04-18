@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
-import ExpensesBreakdown from './ExpensesBreakdown';
+import ExpensesBreakdown from './ExpensesBreakdown'
+import NavBar from './NavBar';
 
 function Home(){
     const [isNegative, setIsNegative] = useState(false)
@@ -50,18 +51,20 @@ function Home(){
 
     return(
         <div>
+            <NavBar/>
             <div className='info-container'>
                 <h3>Current Net</h3>
-                <p>//Put Net Here//</p>
+                <p>//Goal to meet Expenses//</p>
             </div>
             <div className='info-container'>
                 <h3>Hours per week to meet expenses:</h3>
-                <p>$ {(weeklyExpenses/avgIncome).toFixed(2)}</p>
+                <p>{(weeklyExpenses/avgIncome).toFixed(2)} hours</p>
             </div>
             <div className='info-container'>
                 <h3>Hours per week to meet expenses:</h3>
                 <p>//Put deficit logic here//</p>   
             </div>
+            {/* needs to show the breakdown of expenses */}
             {isNegative && <ExpensesBreakdown expenses={userInfo.expenses} weeklyExpenses={weeklyExpenses} />}
         </div>
     )
