@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
+import NavBar from './NavBar';
+import LogoutButton from './LogoutButton';
+
 function Profile(){
     const [userInfo, setUserInfo] = useState()
     const navigate = useNavigate()
@@ -56,8 +59,10 @@ function Profile(){
 
     return(
         <div>
+            <NavBar/>
             <p>Profile page</p>
             {/* <Plaid /> */}
+            <LogoutButton />
         </div>
     )
 }

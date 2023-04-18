@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
 import '../App.css';
 
 function SignUp(){
+    const nagivate = useNavigate()
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -17,7 +19,8 @@ function SignUp(){
             body: JSON.stringify(formData)
         })
         .then(res => {
-            console.log(res)
+            nagivate('/')
+
         })
     }
     function handleChange(e) {
@@ -28,6 +31,9 @@ function SignUp(){
 
     return(
         <div>
+            <h1>
+                Sign Up!
+            </h1>
             <form onSubmit={handleSubmit}>
                 <input name='username' value={formData['username']} onChange={handleChange} type='text' placeholder='Enter username' />
                 <input name='password' value={formData['password']} onChange={handleChange} type='text' placeholder='Enter password' />

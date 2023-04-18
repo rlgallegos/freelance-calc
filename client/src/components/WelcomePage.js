@@ -1,35 +1,35 @@
 import React, {useState, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
+
 import SignUp from './SignUp';
 import Login from './Login';
 
+
 function WelcomePage(){
 
-    const [showSignup, setShowSignup] = useState(false);
+    const navigate = useNavigate()
     function handleClick(){
-        setShowSignup((showSignup) => !showSignup);
+        navigate('/signup')
     }
 
     return(
         <div>
-            <h2>Welcome!</h2>
+            <h1>Freelance Calculator</h1>
+            <h2>Take control of your work hours</h2>
+            {/* <h3>Track your epxences to better plan out your work schedule</h3> */}
             <br></br>
             <div>
-                <h3>Who we are:</h3>
-                <p>(Here we enter information about who we are)</p>
+                <h3>Track your expenses to better plan out your work schedule</h3>
+                <p>If you need help calcuating how much you need to work to ... blah blah blah blah blah blah blah blah blah blah blah blah </p>
                 <h3>What we do:</h3>
                 <p>(Here we enter all the information we want to say about our website)</p>
             </div>
-            <div>
-                <h3>New to the Finance Calculator?</h3>
-                <h4>Sign up below:</h4>
-                
-                <h3>Already a member?</h3>
-                <h4>Log in below:</h4>
+
+            <div className='Signin'>
+                <h4>Log in:</h4>
                 <Login />
 
                 <button onClick={handleClick}>Sign up</button>
-                {showSignup ? <SignUp /> : null}
-
             </div>
         </div>
     )
