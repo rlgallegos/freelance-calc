@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import '../App.css';
+import { useNavigate } from 'react-router-dom';
 
 function Login(){
     const [formData, setFormData] = useState({
         username: '',
         password: ''
     })
+    const navigate = useNavigate()
+
     function handleSubmit(e) {
         e.preventDefault()
         fetch('/login', {
@@ -16,8 +19,8 @@ function Login(){
             body: JSON.stringify(formData)
         })
         .then(res => res.json())
-        .then(data => {
-            console.log(data)
+        .then(() => {
+            navigate('/home')
         })
     }
     function handleChange(e) {
