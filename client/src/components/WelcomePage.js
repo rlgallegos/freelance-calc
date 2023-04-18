@@ -4,6 +4,11 @@ import Login from './Login';
 
 function WelcomePage(){
 
+    const [showSignup, setShowSignup] = useState(false);
+    function handleClick(){
+        setShowSignup((showSignup) => !showSignup);
+    }
+
     return(
         <div>
             <h2>Welcome!</h2>
@@ -17,10 +22,14 @@ function WelcomePage(){
             <div>
                 <h3>New to the Finance Calculator?</h3>
                 <h4>Sign up below:</h4>
-                <SignUp />
+                
                 <h3>Already a member?</h3>
                 <h4>Log in below:</h4>
                 <Login />
+
+                <button onClick={handleClick}>Sign up</button>
+                {showSignup ? <SignUp /> : null}
+
             </div>
         </div>
     )
