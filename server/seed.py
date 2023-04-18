@@ -27,6 +27,13 @@ with app.app_context():
             token = fake.isbn10()
         )
         users.append(user)
+
+    # bobby = User(
+    #     username = 'bobby',
+    #     password_hash = 'password'
+    #     token = fake.isbn10()
+    # )
+    # users.append(bobby)
     db.session.add_all(users)
     db.session.commit()
 
@@ -34,9 +41,9 @@ with app.app_context():
     incomes = []
     for i in range(25):
         income = Income(
-        hourly_wage = randint(15, 85),
-        annual_total_income = randint(65000, 250000),
-        user = users[i]
+            hourly_wage = randint(15, 85),
+            annual_total_income = randint(65000, 250000),
+            user = users[i]
         )
         incomes.append(income)
     db.session.add_all(incomes)
@@ -65,4 +72,37 @@ with app.app_context():
         )
         expenses.append(expense)        
     db.session.add_all(expenses)
+    db.session.commit()
+
+    # Setting up actual data to work with
+
+    bobby = User(
+        username = 'bobby',
+        password_hash = 'password',
+        token = fake.isbn10()
+    )
+    db.session.add(bobby)
+    db.session.commit()
+
+    bobby_incomes = []
+    for i in range(2):
+        income = Income(
+            hourly_wage = randint(15, 85),
+            annual_total_income = randint(35000, 100000),
+            user = bobby
+        )
+        bobby_incomes.append(income)
+    db.session.add_all(bobby_incomes)
+    db.session.commit()
+
+
+    bobby_expenses = []
+    for i in range(7):
+        expense = Expense(
+            amount = randint(25, 1500),
+            user = bobby,
+            category = choice(categories)
+        )
+        bobby_expenses.append(expense)
+    db.session.add_all(bobby_expenses)
     db.session.commit()

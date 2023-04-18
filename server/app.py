@@ -20,7 +20,7 @@ app.secret_key = 'bobbyisthebest'
 class Users(Resource):
     def get(self):
         users = User.query.all()
-        user_list = [user.to_dict(only=('username', 'token')) for user in users]
+        user_list = [user.to_dict() for user in users]
         return make_response(user_list, 200)
 
 
@@ -32,7 +32,7 @@ class UserByID(Resource):
 
         # Here will go all logic to validate password and username
 
-        user_dict = user.to_dict(only=('username', 'password', 'token'))
+        user_dict = user.to_dict()
         return make_response(user_dict, 200)
 
     def post(self, id):
@@ -51,7 +51,7 @@ class UserByID(Resource):
             db.session.commit()
         except:
             make_response({"Error": "Resource not created"}, 422)
-        user_dict = user.to_dict(only=('username', 'password', 'token'))
+        user_dict = user.to_dict()
         return make_response(user_dict, 200)
 
 
@@ -76,8 +76,6 @@ class Signup(Resource):
             username = data['username'],
             password_hash = data['password'],
         )
-        print(new_user.to_dict(only=('username', 'token')))
-        print(new_user)
         try:
             db.session.add(new_user)
             db.session.commit()
@@ -93,16 +91,12 @@ class CheckSession(Resource):
         if user:
             return user.to_dict(), 200
         else:
-            print('successfully registered none value for user')
             return {'error': 'Unauthorized'}, 401
 
 class Login(Resource):
     def post(self):
         data = request.get_json()
-        print(data)
-
         user = User.query.filter(User.username == data['username']).first()
-        print(user.to_dict())
         if user.authenticate(data['password']):
             session['user_id'] = user.id
             return user.to_dict(), 200    
@@ -114,6 +108,8 @@ class Logout(Resource):
         session['user_id'] = None
         return {}, 204
 
+
+# Add Resources
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
