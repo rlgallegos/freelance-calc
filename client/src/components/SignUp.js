@@ -2,8 +2,14 @@ import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import '../App.css';
 
+import Plaid from './Plaid';
+import Link from './Link';
+
 function SignUp(){
     const nagivate = useNavigate()
+
+    const [startLink, setStartLink] = useState(false)
+
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -27,7 +33,9 @@ function SignUp(){
         setFormData({...formData, [e.target.name]: e.target.value})
     }
 
-    // console.log(formData)
+    function handleStartLink() {
+        setStartLink(true)
+    }
 
     return(
         <div>
@@ -40,6 +48,8 @@ function SignUp(){
                 <input name='passwordConfirmation' value={formData['passwordConfirmation']} onChange={handleChange} type='text' placeholder='Confirm password' />
                 <input type='submit' />
             </form>
+            <button onClick={handleStartLink}>Click Me to Start the whole Plaid stuff</button>
+            {startLink && <Plaid />}
         </div>
     )
 }
