@@ -19,7 +19,7 @@ function Plaid() {
         generateToken();
     }, []);
 
-    return linkToken != null ? <Link linkToken={linkToken} /> : <></>;
+    return (linkToken != null ? <Link linkToken={linkToken} /> : <></>);
 
 };
 

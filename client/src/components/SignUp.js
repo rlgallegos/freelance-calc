@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import '../App.css';
 
 import Plaid from './Plaid';
-import Link from './Link';
+// import Link from './Link';
 
 function SignUp(){
     const nagivate = useNavigate()
