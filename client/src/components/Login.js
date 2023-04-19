@@ -18,7 +18,11 @@ function Login(){
             },
             body: JSON.stringify(formData)
         })
-        .then(res => res.json())
+        .then(() =>{
+            fetch('/update_income',{
+                method: "PATCH"
+            })
+        })
         .then(() => {
             navigate('/home')
         })
@@ -32,7 +36,7 @@ function Login(){
         <div>
             <form onSubmit={handleSubmit}>
                 <input name='username' value={formData['username']} onChange={handleChange} type='text' placeholder='Enter username' />
-                <input name='password' value={formData['password']} onChange={handleChange} type='text' placeholder='Enter password' />
+                <input name='password' value={formData['password']} onChange={handleChange} type='password' placeholder='Enter password' />
                 <input type='submit' />
             </form>
         </div>
