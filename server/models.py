@@ -36,7 +36,7 @@ class Income(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     hourly_wage = db.Column(db.Float)
-    monthly_total_income = db.Column(db.Integer)
+    monthly_total_income = db.Column(db.Integer, default=0)
 
     serialize_rules = ('-user', '-id', '-user_id')
 

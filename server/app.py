@@ -89,6 +89,7 @@ class Signup(Resource):
             db.session.commit()
         except:
             make_response({"Error": "Resource not created"}, 422)
+        # INCOME AND EXPENSE INSTANCE CREATE
         session['user_id'] = new_user.id
         new_user_dict = new_user.to_dict(only=('id', 'username', 'token'))
         return make_response(new_user_dict, 201)

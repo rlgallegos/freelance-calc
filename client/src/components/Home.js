@@ -50,10 +50,10 @@ function Home(){
                 <h3>Monthy Breakdown by Category:</h3>
                 <p>Rent: {rentExpense}</p>
                 <p>Utilites: {utilitiesExpense}</p> 
-                <p>Insurance: {insuranceExpense}</p>
-                <p>Bills???: {billpayExpense}</p>
                 <p>Food and Beverages: {foodAndBeverageExpense}</p>
+                <p>Insurance: {insuranceExpense}</p>
                 <p>Taxes: {taxesExpense}</p>
+                <p>Automatic Payemnts: {billpayExpense}</p>
             </div>
         </div>
     )
