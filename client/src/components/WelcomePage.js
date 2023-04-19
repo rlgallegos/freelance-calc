@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+// import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 
-import SignUp from './SignUp';
+// import SignUp from './SignUp';
 import Login from './Login';
 
 
