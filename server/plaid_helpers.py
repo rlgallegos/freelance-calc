@@ -1,5 +1,6 @@
 import requests
-
+import plaid
+from plaid.api import plaid_api
 
 # Expenses Logic
 
@@ -52,3 +53,35 @@ def update_income(user_token):
     total_income = income_response.json()['bank_income'][0]['bank_income_summary']['historical_summary'][1]['total_amount']
     return total_income
 
+
+
+# Token Logic
+
+#Change this to switch to development
+PLAID_ENV = 'sandbox'
+
+# host = plaid.Environment.Sandbox
+
+if PLAID_ENV == 'sandbox':
+    host = plaid.Environment.Sandbox
+
+if PLAID_ENV == 'development':
+    host = plaid.Environment.Development
+
+configuration = plaid.Configuration(
+    host=host,
+    api_key={
+        'clientId': "643d947ffcfd210012e71a2f",
+        'secret': "8dae0930715056a722a284658a5748",
+        'plaidVersion': '2020-09-14'
+    }
+)
+
+
+
+api_client = plaid.ApiClient(configuration)
+client = plaid_api.PlaidApi(api_client)
+
+# products = []
+# for product in PLAID_PRODUCTS:
+#     products.append(Products(product))
