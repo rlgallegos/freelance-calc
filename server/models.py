@@ -12,7 +12,7 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String)
     access_token = db.Column(db.String)
 
-    serialize_rules = ('-income.user', '-expenses.user', '-token', '-_password_hash')
+    serialize_rules = ('-income.user', '-expenses.user', '-access_token', '-_password_hash')
 
     expenses = db.relationship('Expense', back_populates='user')
     income = db.relationship('Income', back_populates='user')

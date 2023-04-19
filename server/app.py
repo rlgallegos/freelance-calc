@@ -79,7 +79,8 @@ class UserByID(Resource):
 class Signup(Resource):
     def post(self):
         data = request.get_json()
-        # Here will go all of the logic to encrypt the password
+
+        # Create new user
         new_user = User(
             username = data['username'],
             password_hash = data['password'],
@@ -88,10 +89,37 @@ class Signup(Resource):
             db.session.add(new_user)
             db.session.commit()
         except:
-            make_response({"Error": "Resource not created"}, 422)
-        # INCOME AND EXPENSE INSTANCE CREATE
+            make_response({"Error": "User instance not created"}, 422)
+
+        # Associate new default income
+        new_income = Income(
+            user_id = new_user.id,
+            monthly_total_income = 0,
+            hourly_wage = 8
+        )
+        try:
+            db.session.add(new_income)
+            db.session.commit()
+        except:
+            make_response({"Error": "Income instance not created"}, 422)
+
+        # Associate new default expenses
+        new_expenses = []
+        for i in range(6):
+            new_expense = Expense(
+                amount = 0,
+                user_id = new_user.id,
+                category_id = (i + 1)
+            )
+            new_expenses.append(new_expense)
+        try:
+            db.session.add_all(new_expenses)
+            db.session.commit()
+        except:
+            make_response({"Error": "Income instance not created"}, 422)
+
         session['user_id'] = new_user.id
-        new_user_dict = new_user.to_dict(only=('id', 'username', 'token'))
+        new_user_dict = new_user.to_dict(only=('id', 'username'))
         return make_response(new_user_dict, 201)
 
 class CheckSession(Resource):
@@ -120,24 +148,21 @@ class Logout(Resource):
 
 class UpdateExpenses(Resource):
     def get(self):
-        user = User.query.filter(User.id == 26).first()
-
+        user = User.query.filter(User.id == session['user_id']).first()
         # Clear previous expenses
         Expense.query.filter(Expense.user_id == user.id).delete()
         db.session.commit()
 
-        update_object = update_expenses("access-sandbox-453207de-d94f-448f-bb31-87754eb6d213")
+        update_object = update_expenses(user.access_token)
 
         expense_list = []
         for key, value in update_object.items():
-            print(value)
             new_exp = Expense(
                 user_id = user.id,
                 category_id = key,
                 amount = value
             )
             expense_list.append(new_exp)
-        print(expense_list)
         db.session.add_all(expense_list)
         db.session.commit()
         return
@@ -145,8 +170,7 @@ class UpdateExpenses(Resource):
 class UpdateIncome(Resource):
     def patch(self):
         total_income = update_income("user-sandbox-7684898b-97aa-4e5f-91e9-82680cb20b0d")
-        print(total_income)
-        income = Income.query.filter(Income.user_id == 26).first()
+        income = Income.query.filter(Income.user_id == session['user_id']).first()
         setattr(income, 'monthly_total_income', total_income)
         db.session.add(income)
         db.session.commit()
@@ -185,39 +209,19 @@ def create_link_token():
             products=[Products("auth")],
             client_name="Freelance Calculator",
             country_codes=[CountryCode('US')],
-            # redirect_uri='https://domainname.com/oauth-page.html',
             language='en',
             webhook='https://webhook.example.com',
             user=LinkTokenCreateRequestUser(
                 client_user_id="643d947ffcfd210012e71a2f"
             )
-            
         )
 
     response = client.link_token_create(request)
     res = make_response(response.to_dict())
 
     res.set_cookie('Secure', 'same-site-cookie', samesite='None');
-    # Ensure you use "add" to not overwrite existing cookie headers
 
-
-    # res["Set-Cookie"] = 'same-site'='+COOKIE_VALUE+';expires='+EXPIRES+';Secure;SameSite=None;HttpOnly;Path=/;domain='+MY_DOMAIN+';'
-
-    # res.headers.add('Set-Cookie','cross-site-cookie=bar; SameSite=None; Secure')
-    # res.headers['SameSite'] = 'None'
-    print(res.headers)
     return res
-
-    # response = client.link_token_create(request)
-    # response.headers['SameSite'] = 'None'
-    # resp.headers['Access-Control-Allow-Origin'] = '*'
-
-    # Send the data to the client
-    # return jsonify(response.to_dict())
-
-# access_token = 'access-sandbox-694ba0cc-a57a-4572-b077-2e719a93f54e'
-# item_id = 'R5GeqM1NwaHwPA8yrvx8hqWAkGNPkbSRZvggX'
-
 
 
 

@@ -7,8 +7,10 @@ import EditHourlyWageButton from './EditHourlyWageButton';
 import UpdateExpenseButton from './UpdateExpenseButton';
 import LogoutButton from './LogoutButton';
 import DeleteProfileButton from './DeleteProfileButton';
+import Plaid from './Plaid';
 
 function Profile(){
+    const [startLink, setStartLink] = useState(false)
     const [userInfo, setUserInfo] = useState()
     const navigate = useNavigate()
     useEffect(() => {
@@ -24,6 +26,12 @@ function Profile(){
 
     const username = userInfo && userInfo.username
     const hourlyWage = userInfo && userInfo.income[0].hourly_wage
+
+
+    function handleStartLink() {
+        setStartLink(true)
+    }
+
     
     return(
         <div>
@@ -35,7 +43,10 @@ function Profile(){
             <UpdateExpenseButton />
             <LogoutButton />
             <DeleteProfileButton/>
-            
+            {/* Move this to the correct location */}
+            <button onClick={handleStartLink}>Click Me to Start the whole Plaid stuff</button>      
+            {startLink && <Plaid />}
+
         </div>
     )
 }
