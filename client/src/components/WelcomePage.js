@@ -14,7 +14,7 @@ function WelcomePage(){
 
     return(
         <div>
-            <h1>Freelance Calculator</h1>
+            <h1 className='title'>Freelance Calculator</h1>
             <h2>Take control of your work hours</h2>
             {/* <h3>Track your epxences to better plan out your work schedule</h3> */}
             <br></br>

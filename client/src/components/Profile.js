@@ -4,13 +4,11 @@ import '../App.css';
 
 import NavBar from './NavBar';
 import LogoutButton from './LogoutButton';
+import EditProfile from './EditProfile';
 
 function Profile(){
-    const [userInfo, setUserInfo] = useState()
     const navigate = useNavigate()
-
-    
-
+    const [userInfo, setUserInfo] = useState()
     useEffect(() => {
         fetch('/check_session')
         .then(res => {
@@ -23,6 +21,11 @@ function Profile(){
     }, [])
 
     console.log(userInfo)
+
+    const [showEdit, setShowEdit] = useState(false)
+    function handleClick() {
+        setShowEdit((showEdit) => !showEdit)
+    }
 
 
 
@@ -61,6 +64,16 @@ function Profile(){
         <div>
             <NavBar/>
             <p>Profile page</p>
+            <p>Username: Display USERNAME</p>
+            <p>Hourly Wage: Display HOURLY WAGE</p>
+
+            {/* INFORMATION THAT CAN BE CHANGED/ EDITED */}
+            <div>
+                <button onClick={handleClick}>Edit</button>
+                {showEdit ? <EditProfile /> : null}
+                
+                
+            </div>
             {/* <Plaid /> */}
             <LogoutButton />
         </div>
