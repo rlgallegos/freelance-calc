@@ -19,53 +19,42 @@ function Home(){
             }
         })
     }, [])
-
     console.log(userInfo)
+    
+    //Income and Expenses:
+    const monthlyIncome = userInfo.income && userInfo.income[0].monthly_total_income
+    const hourlyWage = userInfo.income && userInfo.income[0].hourly_wage
 
-    //Calculations
-    let weeklyIncome = 0
-    let weeklyExpenses = 0
-    let avgIncome = 0
-    if (userInfo.income) {
+    const foodAndBeverageExpense = userInfo.expenses && userInfo.expenses[0].amount
+    const rentExpense = userInfo.expenses && userInfo.expenses[1].amount
+    const utilitiesExpense = userInfo.expenses && userInfo.expenses[2].amount
+    const insuranceExpense = userInfo.expenses && userInfo.expenses[3].amount
+    const billpayExpense = userInfo.expenses && userInfo.expenses[4].amount
+    const taxesExpense = userInfo.expenses && userInfo.expenses[5].amount
 
-        //Calculate Weekly Income
-        let totalIncome = 0
-        let totalHourly = 0
-        userInfo.income.forEach(income => {
-            totalIncome += income.annual_total_income
-            totalHourly += income.hourly_wage
-        })
-        weeklyIncome = (totalIncome / 52).toFixed(2)
-
-        //Calculate Weekly Expenses
-        let totalExpenses = 0
-        userInfo.expenses.forEach(expense => {
-            totalExpenses += expense.amount
-        })
-        weeklyExpenses = (totalExpenses / 4).toFixed(2)
-
-        //Calculate average hourly
-        avgIncome = totalHourly / (userInfo.income.length).toFixed(2)
-    }
-
+    const expenseTotal = foodAndBeverageExpense + rentExpense + utilitiesExpense + insuranceExpense + billpayExpense + taxesExpense
 
     return(
         <div>
             <NavBar/>
             <div className='info-container'>
                 <h3>Current Net</h3>
-                <p>//Goal to meet Expenses//</p>
+                <p>{monthlyIncome} / {expenseTotal}</p>
             </div>
             <div className='info-container'>
                 <h3>Hours per week to meet expenses:</h3>
-                <p>{(weeklyExpenses/avgIncome).toFixed(2)} hours</p>
+                <p>{Math.ceil(expenseTotal/hourlyWage)} hours needed to meet total expense of {expenseTotal}</p>
+                <p>Hours needed to work currently?? : </p>
             </div>
             <div className='info-container'>
-                <h3>Hours per week to meet expenses:</h3>
-                <p>//Put deficit logic here//</p>   
+                <h3>Monthy Breakdown by Category:</h3>
+                <p>Rent: {rentExpense}</p>
+                <p>Utilites: {utilitiesExpense}</p> 
+                <p>Insurance: {insuranceExpense}</p>
+                <p>Bills???: {billpayExpense}</p>
+                <p>Food and Beverages: {foodAndBeverageExpense}</p>
+                <p>Taxes: {taxesExpense}</p>
             </div>
-            {/* needs to show the breakdown of expenses */}
-            {isNegative && <ExpensesBreakdown expenses={userInfo.expenses} weeklyExpenses={weeklyExpenses} />}
         </div>
     )
 }
