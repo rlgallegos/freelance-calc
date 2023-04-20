@@ -12,37 +12,31 @@ function ExpensePieChart(){
             } 
         })
     }, [])
-    console.log(userInfo)
 
-    // const foodAndBeverageExpense = userInfo.expenses && userInfo.expenses[0].amount
-    // const rentExpense = userInfo.expenses && userInfo.expenses[1].amount
-    // const utilitiesExpense = userInfo.expenses && userInfo.expenses[2].amount
-    // const insuranceExpense = userInfo.expenses && userInfo.expenses[3].amount
-    // const billpayExpense = userInfo.expenses && userInfo.expenses[4].amount
-    // const taxesExpense = userInfo.expenses && userInfo.expenses[5].amount
+    const foodAndBeverageExpense = userInfo.expenses && userInfo.expenses[0].amount
+    const rentExpense = userInfo.expenses && userInfo.expenses[1].amount
+    const utilitiesExpense = userInfo.expenses && userInfo.expenses[2].amount
+    const insuranceExpense = userInfo.expenses && userInfo.expenses[3].amount
+    const billpayExpense = userInfo.expenses && userInfo.expenses[4].amount
+    const taxesExpense = userInfo.expenses && userInfo.expenses[5].amount
 
-    // const expenseTotal = foodAndBeverageExpense + rentExpense + utilitiesExpense + insuranceExpense + billpayExpense + taxesExpense
+    const expenseTotal = foodAndBeverageExpense + rentExpense + utilitiesExpense + insuranceExpense + billpayExpense + taxesExpense
 
     const data = [
-        // {name: 'Food & Beverages', value: foodAndBeverageExpense},
-        // {name: 'Rent', value: rentExpense},
-        // {name: 'Utilites', value: utilitiesExpense},
-        // {name: 'Insurance', value: insuranceExpense},
-        // {name: 'AutoPay Bills', value: billpayExpense},
-        // {name: 'Taxes', value: taxesExpense},
-        {name: 'example1', value: 100},
-        {name: 'example2', value: 400},
-        {name: 'example3', value: 200},
-        {name: 'example4', value: 60},
-        {name: 'example5', value: 400},
-        {name: 'example6', value: 50},
+        {name: 'Food & Beverages', value: foodAndBeverageExpense},
+        {name: 'Rent', value: rentExpense},
+        {name: 'Utilites', value: utilitiesExpense},
+        {name: 'Insurance', value: insuranceExpense},
+        {name: 'AutoPay Bills', value: billpayExpense},
+        {name: 'Taxes', value: taxesExpense},
     ]
-
+    
     const COLORS = ['#0088fe', '#b977f0', '#ff65c4', '#ff6c8b', '#ff9053', '#ffbb28' ];
 
   return (
     <div>
-        <h1>Pie Chart</h1>
+        <h3>Expense Breakdown:</h3>
+        <h5>The total expense displayed is ${expenseTotal}</h5>
         <PieChart width={400} height={400}>
           <Pie
             dataKey="value"
@@ -51,7 +45,7 @@ function ExpensePieChart(){
             cx="50%"
             cy="50%"
             outerRadius={80}
-            fill="#8884d8"
+            fill="#0088fe"
             label
           />
             {data.map((entry, index) => (

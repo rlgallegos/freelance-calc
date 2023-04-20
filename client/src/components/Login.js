@@ -35,7 +35,6 @@ function Login(){
                 body: JSON.stringify(values)
             })
         .then(() =>{
-            console.log('here')
             fetch('/update_income',{
                 method: "PATCH",
                 headers: {

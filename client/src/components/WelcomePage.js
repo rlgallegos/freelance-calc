@@ -4,11 +4,6 @@ import {useNavigate} from 'react-router-dom';
 // import SignUp from './SignUp';
 import Login from './Login';
 
-//TESTING PURPOSES:
-import PieChart from './ExpensePieChart';
-import ColorPieChart from './ColorPieChart';
-
-
 function WelcomePage(){
 
     const navigate = useNavigate()
@@ -17,9 +12,7 @@ function WelcomePage(){
     }
 
     return(
-        <div>
-
-        <div className="welcomePage">
+        <div className="welcome-page">
             <div>
                 <h1>Freelance Calculator</h1>
                 <h2>Take control of your work hours</h2>
@@ -33,16 +26,11 @@ function WelcomePage(){
                 </div>
             </div>
 
-            <div className='Signin'>
+            <div className='signin'>
                 <h4>Log in:</h4>
                 <Login />
-                <br /><br />
                 <button onClick={handleClick}>Sign up</button>
             </div>
-        </div>
-
-            <PieChart/>
-            <ColorPieChart/>
         </div>
     )
 }

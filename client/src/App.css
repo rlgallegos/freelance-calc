@@ -1,13 +1,57 @@
-.welcomePage {
+/* Color Scheme:
+#0088fe BLUE
+#b977f0 PURPLE
+#ff65c4 PINK
+#ff6c8b SALMON
+#ff9053 ORANGE
+#ffbb28 YELLOW
+
+Blue Scheme:
+#62CDFF
+#97DEFF
+#C9EEFF
+
+*/
+
+/* WELCOME PAGE */
+.welcome-page {
   display: flex;
   justify-content: space-around;
 }
 
-.signInForm {
+/* NAVBAR */
+.navbar {
   display: flex;
-  flex-direction: column;
+  background-color: #62CDFF;
+  color: white;
+}
+      /* adjust the placement of the routes: separate from the 'title' */
+.navbar-header {
+  margin-left: 20px;
+  justify-content: left
+}
+.navbar-routes {
+  justify-content: right
 }
 
-.signInForm input {
-  margin-bottom: 5px;
+/* HOME */
+.home {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-around;
+}
+.top-container{
+  flex-direction: row;
+}
+.info-container {
+  text-align: center;
+  margin: 10px 30px;
+  border-radius: 30px;
+  padding: 1rem;
+
+  background-color: rgba(151, 222, 255, 0.5)
+}
+.net-display{
+  display: flex;
+  justify-content: center;
 }
