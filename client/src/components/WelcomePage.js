@@ -5,8 +5,8 @@ import {useNavigate} from 'react-router-dom';
 import Login from './Login';
 
 //TESTING PURPOSES:
-import PieChart from './ExpensePieChart';
-import ColorPieChart from './ColorPieChart';
+// import PieChart from './ExpensePieChart';
+// import ColorPieChart from './ColorPieChart';
 
 
 function WelcomePage(){
@@ -41,8 +41,8 @@ function WelcomePage(){
             </div>
         </div>
 
-            <PieChart/>
-            <ColorPieChart/>
+            {/* <PieChart/>
+            <ColorPieChart/> */}
         </div>
     )
 }

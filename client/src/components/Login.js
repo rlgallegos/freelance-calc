@@ -34,47 +34,35 @@ function Login(){
                 },
                 body: JSON.stringify(values)
             })
-        .then(() =>{
-            console.log('here')
-            fetch('/update_income',{
-                method: "PATCH",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(values.username)
-            })
-        })
+        // .then(() =>{
+        //     console.log('here')
+        //     updateIncome(values.username)
+        //     fetch('/update_income',{
+        //         method: "PATCH",
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify(values.username)
+        //     })
+        // })
             .then(() => {
                 navigate('/home')
             })
         }
     })
 
-
-
-
-
-    // function handleSubmit(e) {
-    //     e.preventDefault()
-    //     fetch('/login', {
-    //         method: 'POST',
-    //         headers:  {
+    // function updateIncome(username) {
+    //     fetch('/update_income',{
+    //         method: "PATCH",
+    //         headers: {
     //             'Content-Type': 'application/json'
     //         },
-    //         body: JSON.stringify(formData)
-    //     })
-    //     .then(() =>{
-    //         fetch('/update_income',{
-    //             method: "PATCH"
-    //         })
-    //     })
-    //     .then(() => {
-    //         navigate('/home')
+            // body: JSON.stringify(username)
     //     })
     // }
-    // function handleChange(e) {
-    //     setFormData({...formData, [e.target.name]: e.target.value})
-    // }
+
+
+
 
 
     return(
