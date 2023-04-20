@@ -35,9 +35,14 @@ function Login(){
                 body: JSON.stringify(values)
             })
         .then(() =>{
-            fetch('/update_income',{
-                method: "PATCH"
-            })
+            console.log('here')
+            // fetch('/update_income',{
+            //     method: "PATCH"
+            //     // headers: {
+            //     //     'Content-Type': 'application/json'
+            //     // },
+            //     // body: JSON.stringify(values.username)
+            // })
         })
             .then(() => {
                 navigate('/home')

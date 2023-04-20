@@ -8,11 +8,14 @@ import UpdateExpenseButton from './UpdateExpenseButton';
 import LogoutButton from './LogoutButton';
 import DeleteProfileButton from './DeleteProfileButton';
 import Plaid from './Plaid';
+import Link from './Link';
 
 function Profile(){
-    const [startLink, setStartLink] = useState(false)
+    // const [startLink, setStartLink] = useState(false)
     const [userInfo, setUserInfo] = useState()
+    // const [linkToken, setLinkToken] = useState(null)
     const navigate = useNavigate()
+
     useEffect(() => {
         fetch('/check_session')
         .then(res => {
@@ -26,12 +29,6 @@ function Profile(){
 
     const username = userInfo && userInfo.username
     const hourlyWage = userInfo && userInfo.income[0].hourly_wage
-
-
-    function handleStartLink() {
-        setStartLink(true)
-    }
-
     
     return(
         <div>
@@ -44,9 +41,8 @@ function Profile(){
             <LogoutButton />
             <DeleteProfileButton/>
             {/* Move this to the correct location */}
-            <button onClick={handleStartLink}>Click Me to Start the whole Plaid stuff</button>      
-            {startLink && <Plaid />}
-
+            {/* <button onClick={handleStartLink}>Click Me to Start the whole Plaid stuff</button>       */}
+            <Plaid />
         </div>
     )
 }

@@ -22,17 +22,43 @@ function Home(){
     console.log(userInfo)
     
     //Income and Expenses:
-    const monthlyIncome = userInfo.income && userInfo.income[0].monthly_total_income
-    const hourlyWage = userInfo.income && userInfo.income[0].hourly_wage
+    const monthlyIncome = 0
+    const hourlyWage = 0
+    const foodAndBeverageExpense = 0
+    const rentExpense = 0
+    const utilitiesExpense = 0
+    const insuranceExpense = 0
+    const billpayExpense = 0
+    const taxesExpense = 0
+    const expenseTotal = 0
 
-    const foodAndBeverageExpense = userInfo.expenses && userInfo.expenses[0].amount
-    const rentExpense = userInfo.expenses && userInfo.expenses[1].amount
-    const utilitiesExpense = userInfo.expenses && userInfo.expenses[2].amount
-    const insuranceExpense = userInfo.expenses && userInfo.expenses[3].amount
-    const billpayExpense = userInfo.expenses && userInfo.expenses[4].amount
-    const taxesExpense = userInfo.expenses && userInfo.expenses[5].amount
+    // useEffect(() => {
+    //     if (userInfo) {
+    //     const monthlyIncome = userInfo.income && userInfo.income[0].monthly_total_income
+    //     const hourlyWage = userInfo.income && userInfo.income[0].hourly_wage
 
-    const expenseTotal = foodAndBeverageExpense + rentExpense + utilitiesExpense + insuranceExpense + billpayExpense + taxesExpense
+    //     const foodAndBeverageExpense = userInfo.expenses[0] && userInfo.expenses[0].amount
+    //     const rentExpense = userInfo.expenses && userInfo.expenses[1].amount
+    //     const utilitiesExpense = userInfo.expenses && userInfo.expenses[2].amount
+    //     const insuranceExpense = userInfo.expenses && userInfo.expenses[3].amount
+    //     const billpayExpense = userInfo.expenses && userInfo.expenses[4].amount
+    //     const taxesExpense = userInfo.expenses && userInfo.expenses[5].amount
+
+    //     const expenseTotal = foodAndBeverageExpense + rentExpense + utilitiesExpense + insuranceExpense + billpayExpense + taxesExpense
+    //     }
+    // }, [userInfo])
+
+    // const monthlyIncome = userInfo.income && userInfo.income[0].monthly_total_income
+    // const hourlyWage = userInfo.income && userInfo.income[0].hourly_wage
+
+    // const foodAndBeverageExpense = userInfo.expenses[0] && userInfo.expenses[0].amount
+    // const rentExpense = userInfo.expenses && userInfo.expenses[1].amount
+    // const utilitiesExpense = userInfo.expenses && userInfo.expenses[2].amount
+    // const insuranceExpense = userInfo.expenses && userInfo.expenses[3].amount
+    // const billpayExpense = userInfo.expenses && userInfo.expenses[4].amount
+    // const taxesExpense = userInfo.expenses && userInfo.expenses[5].amount
+
+    // const expenseTotal = foodAndBeverageExpense + rentExpense + utilitiesExpense + insuranceExpense + billpayExpense + taxesExpense
 
     return(
         <div>
