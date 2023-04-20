@@ -4,10 +4,9 @@ function UpdateExpenseButton() {
     const nagivate = useNavigate()
     function handleUpdateExpense() {
 
-        fetch('/logout', {
-            method: "DELETE",
-        }).then(res =>{
-            nagivate('/')
+        fetch('/update_expenses')
+        .then(() =>{
+            nagivate('/home')
         }).catch(err => {
             console.log(err)
         })
