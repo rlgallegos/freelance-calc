@@ -18,6 +18,9 @@ Blue Scheme:
   display: flex;
   justify-content: space-around;
 }
+.bobby{
+  max-width: 40%;
+}
 
 /* NAVBAR */
 .navbar {

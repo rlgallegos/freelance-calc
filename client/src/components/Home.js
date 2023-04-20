@@ -1,10 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
+import '../App.css';
 
 import ExpensesBreakdown from './ExpensesBreakdown'
 import NavBar from './NavBar';
-
-//TESTING PURPOSES:
 import ExpensePieChart from './ExpensePieChart';
 import ProgressBar from './ProgressBar';
 
@@ -41,7 +40,10 @@ function Home(){
     const expenseTotal = foodAndBeverageExpense + rentExpense + utilitiesExpense + insuranceExpense + billpayExpense + taxesExpense
 
     const currentNet = monthlyIncome - expenseTotal
-    // const currentNet = 30 - 1000
+    const hoursToWorkForMonth = Math.ceil(expenseTotal/hourlyWage)
+    const hoursCompleted = Math.ceil(monthlyIncome/hourlyWage)
+    const hoursToWork = hoursToWorkForMonth - hoursCompleted
+
     
     const color = "#0088fe"
     let completed = (monthlyIncome / expenseTotal) * 100
@@ -78,8 +80,9 @@ function Home(){
                     <div className='info-container'>
                         <h3>Work Hour Tracker:</h3>
                         <p>Based on your hourly wage of ${hourlyWage}/hr: </p> 
-                        <p>This month, you need {Math.ceil(expenseTotal/hourlyWage)} hours of work  this month is needed to meet the expense goal</p>
-                        <p>Hours needed to work currently?? : </p>
+                        <p>This month, you need {hoursToWorkForMonth} hours of work  this month is needed to meet the expense goal</p>
+                        <p>Hours left to need expense goal: </p>
+                        {currentNet > 0 ? <p>0hrs: You've met your goal!</p> : <p>{hoursToWork} hrs</p>}
                        
 
                     </div>
