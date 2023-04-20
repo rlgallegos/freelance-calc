@@ -38,7 +38,7 @@ function Profile(){
             <p>Profile page</p>
             <p>Username: {username}</p>
             <p>Hourly Wage: ${hourlyWage}/hr</p>
-            <EditHourlyWageButton />
+            {userInfo && <EditHourlyWageButton userID={userInfo.id} />}
             {userInfo && <ConnectIncome username={userInfo.username} />}
             {userInfo && <UpdateIncome username={userInfo.username} />}
             {userInfo && <UpdateExpenseButton username={userInfo.username} /> }

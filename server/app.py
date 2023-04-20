@@ -55,12 +55,13 @@ class UserByID(Resource):
         data = request.get_json()
 
         for attr in data:
-            setattr(user, attr, data[attr])
+            setattr(user.income[0], attr, data[attr])
         try:
             db.session.add(user)
             db.session.commit()
         except:
             make_response({"Error": "Resource not created"}, 422)
+        print('successfully set in database')
         user_dict = user.to_dict()
         return make_response(user_dict, 200)
 
@@ -75,6 +76,22 @@ class UserByID(Resource):
         except:
             return make_response({"Error": "Resource not deleted"}, 422)
         return make_response({}, 200)
+
+class IncomeByID(Resource):
+    def patch(self, id):
+        user = User.query.filter(User.id == id).first()
+        income = Income.query.filter(Income.id == user.income[0].id).first()
+        wage = request.get_json()['hourly_wage']
+        setattr(income, "hourly_wage", wage)
+        try:
+            db.session.add(income)
+            db.session.commit()
+        except:
+            return {"error": "resource not added"}
+        income_dict = income.to_dict()
+        return income_dict, 200
+
+
 
 
 # Authentication Routes
@@ -196,6 +213,7 @@ class UpdateIncome(Resource):
 
 
 # Add Resources
+api.add_resource(IncomeByID, '/income/<int:id>')
 api.add_resource(UpdateIncome, '/update_income')
 api.add_resource(UpdateExpenses, '/update_expenses', endpoint='update_expenses')
 api.add_resource(Logout, '/logout', endpoint='logout')
