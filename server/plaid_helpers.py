@@ -71,6 +71,7 @@ def update_income(user_token):
     }
 
     income_response = requests.post(income_url, json=income_request_body)
+    print(income_response.json())
     total_income = income_response.json()['bank_income'][0]['bank_income_summary']['historical_summary'][0]['total_amount']
     print(total_income)
     return total_income

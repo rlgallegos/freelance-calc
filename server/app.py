@@ -86,6 +86,8 @@ class Signup(Resource):
         new_user = User(
             username = data['username'],
             password_hash = data['password'],
+            user_token = None,
+            access_token = None
         )
         try:
             db.session.add(new_user)
@@ -171,14 +173,17 @@ class UpdateExpenses(Resource):
     
 class UpdateIncome(Resource):
     def patch(self):
-        username = request.get_json()['username']
+        username = request.get_json()
         user = User.query.filter(User.username == username).first()
-        total_income = update_income(user.user_token)
-        income = Income.query.filter(Income.user_id == session['user_id']).first()
-        setattr(income, 'monthly_total_income', total_income)
-        db.session.add(income)
-        db.session.commit()
-        return
+        if user.user_token:
+            total_income = update_income(user.user_token)
+            income = Income.query.filter(Income.user_id == session['user_id']).first()
+            setattr(income, 'monthly_total_income', total_income)
+            db.session.add(income)
+            db.session.commit()
+            return
+        else:
+            return
 
 
 
