@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react'
-import { PieChart, Pie, Tooltip, Cell} from 'recharts';
+// import React, {useState, useEffect} from 'react'
+// import { PieChart, Pie, Tooltip, Cell} from 'recharts';
 
-function ExpensePieChart(){
+// function ExpensePieChart(){
 
     const [userInfo, setUserInfo] = useState({})
     useEffect(() => {
@@ -54,8 +54,8 @@ function ExpensePieChart(){
           <Tooltip />
         </PieChart>
 
-    </div>
-  )
-}
+//     </div>
+//   )
+// }
 
-export default ExpensePieChart
+// export default ExpensePieChart

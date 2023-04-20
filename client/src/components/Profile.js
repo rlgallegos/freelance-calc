@@ -9,6 +9,8 @@ import LogoutButton from './LogoutButton';
 import DeleteProfileButton from './DeleteProfileButton';
 import Plaid from './Plaid';
 import Link from './Link';
+import ConnectIncome from './ConnectIncome';
+import UpdateIncome from './UpdateIncome';
 
 function Profile(){
     // const [startLink, setStartLink] = useState(false)
@@ -37,7 +39,9 @@ function Profile(){
             <p>Username: {username}</p>
             <p>Hourly Wage: ${hourlyWage}/hr</p>
             <EditHourlyWageButton />
-            <UpdateExpenseButton />
+            {userInfo && <ConnectIncome username={userInfo.username} />}
+            {userInfo && <UpdateIncome username={userInfo.username} />}
+            {userInfo && <UpdateExpenseButton username={userInfo.username} /> }
             <LogoutButton />
             <DeleteProfileButton/>
             {/* Move this to the correct location */}

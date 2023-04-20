@@ -26,6 +26,7 @@ function Home(){
     console.log(userInfo)
     
     //Income and Expenses:
+    console.log(userInfo)
 
     const monthlyIncome = userInfo.income && userInfo.income[0].monthly_total_income
     const hourlyWage = userInfo.income && userInfo.income[0].hourly_wage

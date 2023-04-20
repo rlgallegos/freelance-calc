@@ -14,7 +14,7 @@ function EditHourlyWageButton() {
     }
 
     return (
-        <button onClick={handleedit}>Update</button>
+        <button onClick={handleedit}>Update the HOURLY WAGE</button>
     )
 }
 export default EditHourlyWageButton
