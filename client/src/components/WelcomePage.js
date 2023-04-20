@@ -1,8 +1,10 @@
 // import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
+import '../App.css';
 
 // import SignUp from './SignUp';
 import Login from './Login';
+import Bobby from '../images/cheesy.png'
 
 function WelcomePage(){
 
@@ -16,6 +18,8 @@ function WelcomePage(){
             <div>
                 <h1>Freelance Calculator</h1>
                 <h2>Take control of your work hours</h2>
+                <img src={Bobby} alt='Happy Man' className='bobby'/>
+
                 {/* <h3>Track your epxences to better plan out your work schedule</h3> */}
                 <br></br>
                 <div>

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { PieChart, Pie, Tooltip, Cell} from 'recharts';
+import '../App.css';
 
 function ExpensePieChart(){
 
@@ -30,7 +31,7 @@ function ExpensePieChart(){
         {name: 'AutoPay Bills', value: billpayExpense},
         {name: 'Taxes', value: taxesExpense},
     ]
-    
+
     const COLORS = ['#0088fe', '#b977f0', '#ff65c4', '#ff6c8b', '#ff9053', '#ffbb28' ];
 
   return (
