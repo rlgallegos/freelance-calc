@@ -33,13 +33,11 @@ function Login(){
 
 
     return(
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input name='username' value={formData['username']} onChange={handleChange} type='text' placeholder='Enter username' />
-                <input name='password' value={formData['password']} onChange={handleChange} type='password' placeholder='Enter password' />
-                <input type='submit' />
-            </form>
-        </div>
+        <form className="signInForm" onSubmit={handleSubmit}>
+            <input name='username' value={formData['username']} onChange={handleChange} type='text' placeholder='Enter username' />
+            <input name='password' value={formData['password']} onChange={handleChange} type='password' placeholder='Enter password' />
+            <input type='submit' />
+        </form>
     )
 }
 
