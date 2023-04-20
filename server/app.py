@@ -13,6 +13,8 @@ from plaid.model.link_token_create_request_user import LinkTokenCreateRequestUse
 from plaid.model.products import Products
 from plaid.model.country_code import CountryCode
 from plaid.model.item_public_token_exchange_request import ItemPublicTokenExchangeRequest
+from plaid.model.user_create_request import UserCreateRequest
+
 
 # CORS(app)
 
@@ -169,7 +171,9 @@ class UpdateExpenses(Resource):
     
 class UpdateIncome(Resource):
     def patch(self):
-        total_income = update_income("user-sandbox-7684898b-97aa-4e5f-91e9-82680cb20b0d")
+        username = request.get_json()['username']
+        user = User.query.filter(User.username == username).first()
+        total_income = update_income(user.user_token)
         income = Income.query.filter(Income.user_id == session['user_id']).first()
         setattr(income, 'monthly_total_income', total_income)
         db.session.add(income)
@@ -203,6 +207,9 @@ def create_link_token():
     # Get the client_user_id by searching for the current user
     user = User.query.filter(User.id == session['user_id']).first()
     client_user_id = str(user.id)
+    user.plaid_id = client_user_id
+    db.session.add(user)
+    db.session.commit()
 
     # Create a link_token for the given user
     request = LinkTokenCreateRequest(
@@ -247,6 +254,27 @@ def exchange_public_token():
     db.session.add(user)
     db.session.commit()
     return jsonify({'public_token_exchange': 'complete'})
+
+
+@app.route('/user_token', methods=['POST'])
+def get_user_token():
+    user = User.query.filter(User.id == session['user_id']).first()
+    client_user_id = str(user.id)
+
+    request = UserCreateRequest(
+        client_user_id=str(user.plaid_id)
+    )
+    response = client.user_create(request)
+
+    user_token = response['user_token']
+    user.user_token = user_token
+    db.session.add(user)
+    db.session.commit()
+
+    res = make_response(response.to_dict())
+    res.set_cookie('Secure', 'same-site-cookie', samesite='None')
+    return res
+
 
 
 

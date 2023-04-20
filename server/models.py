@@ -11,6 +11,8 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String)
     _password_hash = db.Column(db.String)
     access_token = db.Column(db.String)
+    user_token = db.Column(db.Integer)
+    plaid_id = db.Column(db.Integer)
 
     serialize_rules = ('-income.user', '-expenses.user', '-access_token', '-_password_hash')
 
