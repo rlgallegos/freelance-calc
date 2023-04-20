@@ -13,15 +13,15 @@ function Home(){
         fetch('/check_session')
         .then(res => {
             if (res.ok) {
-                res.json().then(user => setUserInfo(user))
+                res.json().then(user => setUserInfo(user)).then(() => console.log(userInfo))
             } else {
                 navigate('/')
             }
         })
     }, [])
-    console.log(userInfo)
     
     //Income and Expenses:
+
     const monthlyIncome = userInfo.income && userInfo.income[0].monthly_total_income
     const hourlyWage = userInfo.income && userInfo.income[0].hourly_wage
 
@@ -33,6 +33,7 @@ function Home(){
     const taxesExpense = userInfo.expenses && userInfo.expenses[5].amount
 
     const expenseTotal = foodAndBeverageExpense + rentExpense + utilitiesExpense + insuranceExpense + billpayExpense + taxesExpense
+
 
     return(
         <div>

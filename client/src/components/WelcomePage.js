@@ -28,7 +28,7 @@ function WelcomePage(){
             <div className='Signin'>
                 <h4>Log in:</h4>
                 <Login />
-
+                <br /><br />
                 <button onClick={handleClick}>Sign up</button>
             </div>
         </div>

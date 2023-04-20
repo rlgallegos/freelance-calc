@@ -12,6 +12,7 @@ flask-bcrypt = "*"
 requests = "*"
 plaid = "*"
 plaid-python = "*"
+yup = "*"
 
 [dev-packages]
 

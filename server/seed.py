@@ -23,7 +23,7 @@ with app.app_context():
         user = User(
             username = fake.name(),
             password_hash = fake.word(),
-            token = fake.isbn10()
+            access_token = fake.isbn10()
         )
         users.append(user)
 
@@ -41,7 +41,7 @@ with app.app_context():
     for i in range(25):
         income = Income(
             hourly_wage = randint(15, 85),
-            annual_total_income = randint(65000, 250000),
+            monthly_total_income = randint(65000, 250000),
             user = users[i]
         )
         incomes.append(income)
@@ -78,7 +78,7 @@ with app.app_context():
     bobby = User(
         username = 'bobby',
         password_hash = 'password',
-        token = fake.isbn10()
+        access_token = fake.isbn10()
     )
     db.session.add(bobby)
     db.session.commit()
@@ -87,7 +87,7 @@ with app.app_context():
     for i in range(2):
         income = Income(
             hourly_wage = randint(15, 85),
-            annual_total_income = randint(35000, 100000),
+            monthly_total_income = randint(35000, 100000),
             user = bobby
         )
         bobby_incomes.append(income)
