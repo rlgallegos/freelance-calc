@@ -2,36 +2,48 @@ import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import '../App.css';
 
-import Plaid from './Plaid';
-// import Link from './Link';
+import { useFormik } from 'formik';
+import * as yup from "yup";
+
+// import Plaid from './Plaid';
 
 function SignUp(){
-    const nagivate = useNavigate()
-
+    const navigate = useNavigate()
     const [startLink, setStartLink] = useState(false)
 
-    const [formData, setFormData] = useState({
-        username: '',
-        password: '',
-        passwordConfirmation: ''
-    })
-    function handleSubmit(e) {
-        e.preventDefault()
-        fetch('/signup', {
-            method: 'POST',
-            headers:  {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(res => {
-            nagivate('/')
 
-        })
-    }
-    function handleChange(e) {
-        setFormData({...formData, [e.target.name]: e.target.value})
-    }
+    //Formik Schema Logic
+    const formSchema = yup.object().shape({
+        password: yup.string().required("Must enter a password").max(15),
+        username: yup.string().required("Must enter a username").max(15),
+        passwordConfirmation: yup
+            .string()
+            .oneOf([yup.ref('password')], 'Your passwords do not match.').max(15).required('Must enter a password confirmation')
+      });
+
+
+    //Formik Logic
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            password: '',
+            passwordConfirmation: ''
+        },
+        validationSchema: formSchema,
+        validateOnChange: false,
+        onSubmit: values => {
+            fetch('/signup', {
+                method: 'POST',
+                headers:  {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(values)
+            })
+            .then(() => {
+                navigate('/')
+            })
+        }
+    })
 
     function handleStartLink() {
         setStartLink(true)
@@ -42,14 +54,31 @@ function SignUp(){
             <h1>
                 Sign Up!
             </h1>
-            <form onSubmit={handleSubmit}>
-                <input name='username' value={formData['username']} onChange={handleChange} type='text' placeholder='Enter username' />
-                <input name='password' value={formData['password']} onChange={handleChange} type='text' placeholder='Enter password' />
-                <input name='passwordConfirmation' value={formData['passwordConfirmation']} onChange={handleChange} type='text' placeholder='Confirm password' />
+            <form onSubmit={formik.handleSubmit}>
+
+                <input name='username' value={formik.values.username} onChange={formik.handleChange} type='text' placeholder='Enter username' />
+                <br />
+                <p style={{color: "red"}}>{formik.errors.username}</p>
+                <br />
+                <input name='password' value={formik.values.password} onChange={formik.handleChange} type='text' placeholder='Enter password' />
+                <br />
+                <p style={{color: "red"}}>{formik.errors.password}</p>
+                <br />
+                <input name='passwordConfirmation' value={formik.values.passwordConfirmation} onChange={formik.handleChange} type='text' placeholder='Confirm password' />
+                <br />
+                <p style={{color: "red"}}>{formik.errors.passwordConfirmation}</p>
+                <br />
                 <input type='submit' />
             </form>
-            <button onClick={handleStartLink}>Click Me to Start the whole Plaid stuff</button>
-            {startLink && <Plaid />}
+            
+            
+            
+            
+            {/* Move this to the correct location */}
+            {/* <button onClick={handleStartLink}>Click Me to Start the whole Plaid stuff</button>      
+            {startLink && <Plaid />} */}
+
+
         </div>
     )
 }
