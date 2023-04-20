@@ -48,6 +48,7 @@ function Home(){
     if (completed > 100){
         completed = 100
     }
+    completed = parseInt(completed)
 
   
     return(
