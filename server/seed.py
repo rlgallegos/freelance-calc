@@ -12,8 +12,7 @@ with app.app_context():
     Category.query.delete()
     Expense.query.delete()
     db.session.commit()
-    
-    
+
 
     fake = Faker()
 

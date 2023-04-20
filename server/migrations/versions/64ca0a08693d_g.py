@@ -1,8 +1,8 @@
-"""Creation
+"""g
 
-Revision ID: 221cfa725960
+Revision ID: 64ca0a08693d
 Revises: 
-Create Date: 2023-04-17 11:31:12.329802
+Create Date: 2023-04-20 10:18:50.270054
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '221cfa725960'
+revision = '64ca0a08693d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,8 +26,8 @@ def upgrade():
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(), nullable=True),
-    sa.Column('password', sa.String(), nullable=True),
-    sa.Column('token', sa.String(), nullable=True),
+    sa.Column('_password_hash', sa.String(), nullable=True),
+    sa.Column('access_token', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('expenses',
@@ -42,7 +42,7 @@ def upgrade():
     op.create_table('incomes',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('hourly_wage', sa.Float(), nullable=True),
-    sa.Column('annual_total_income', sa.Integer(), nullable=True),
+    sa.Column('monthly_total_income', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], name=op.f('fk_incomes_user_id_users')),
     sa.PrimaryKeyConstraint('id')
