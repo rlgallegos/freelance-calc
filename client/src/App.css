@@ -72,6 +72,15 @@ Blue Scheme:
   height: fit-content;
 }
 
+/* SIGNUP */
+.signup-header {
+  text-align: center;
+  color: #0088fe;
+}
+.signup-form{
+  text-align: center;
+}
+
 /* LOGIN */
 
 .login form input {
@@ -86,6 +95,7 @@ Blue Scheme:
 .loginSubmit {
   padding: 5px 10px;
   margin-bottom: 20px;
+  border: none;
 }
 
 .signup-button-container button {
@@ -93,6 +103,18 @@ Blue Scheme:
   padding: 5px 10px;
 }
 
+.signup-outter-container{
+  display: flex;
+  justify-content: center;
+}
+.signup-container{
+  background-color: rgba(151, 222, 255, 0.5);
+  padding: 10px 60px;
+  margin-top: 30px;
+  border-radius: 30px;
+  width: fit-content;
+
+}
 /* NAVBAR */
 .navbar {
   display: flex;
