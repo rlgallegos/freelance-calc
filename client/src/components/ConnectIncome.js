@@ -11,7 +11,7 @@ function ConnectIncome({userInfo}) {
         .then(r => {
             if (r.ok) {
                 console.log('Income Correctly Linked')
-                setRefresh(!refresh)
+                setRefresh(true)
             } else {
                 console.log('Failed to Correctly Link')
             }
@@ -20,7 +20,7 @@ function ConnectIncome({userInfo}) {
 
     return (
         <div>
-            {!userInfo.user_token ? <button className="profileBtn" onClick={handleClick}>Initialize Plaid Account</button> : <p>Thank you for setting up a plaid accout!</p>}
+            {(!userInfo.user_token & !refresh) ? <button className="profileBtn" onClick={handleClick}>Initialize Plaid Account</button> : <p className="refresh">Thank you for setting up a plaid accout!</p>}
         </div>
     )
 }
