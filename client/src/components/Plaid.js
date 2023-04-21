@@ -33,10 +33,10 @@ function Plaid({setThankYou, thankYou}) {
 
     return(
       <div>
-        <br></br>
         <button className="profileBtn" onClick={handleStartLink}>Link Your Bank Account</button>
-        <br></br>
+        <br/>
         {linkToken && <Link thankYou={thankYou} setThankYou={setThankYou} linkToken={linkToken} />}
+  
         <br></br>
       </div>
     )
