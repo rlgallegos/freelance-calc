@@ -25,7 +25,7 @@ const { open, ready } = usePlaidLink({
 
 
 return (
-  <button onClick={() => open()} disabled={!ready}>
+  <button className="profileBtn" onClick={() => open()} disabled={!ready}>
     Connect a bank account
   </button>
 );
