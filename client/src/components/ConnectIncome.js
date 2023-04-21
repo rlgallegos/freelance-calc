@@ -1,6 +1,9 @@
+import { useState } from "react"
 
 
-function ConnectIncome() {
+function ConnectIncome({userInfo}) {
+    const [refresh, setRefresh] = useState(false)
+
     function handleClick() {
         fetch('/user_token', {
             method: 'POST'
@@ -8,6 +11,7 @@ function ConnectIncome() {
         .then(r => {
             if (r.ok) {
                 console.log('Income Correctly Linked')
+                setRefresh(true)
             } else {
                 console.log('Failed to Correctly Link')
             }
@@ -16,7 +20,7 @@ function ConnectIncome() {
 
     return (
         <div>
-            <button className="profileBtn" onClick={handleClick}>Authorize Income</button>
+            {(!userInfo.user_token & !refresh) ? <button className="profileBtn" onClick={handleClick}>Initialize Plaid Account</button> : <p className="refresh">Thank you for setting up a plaid accout!</p>}
         </div>
     )
 }

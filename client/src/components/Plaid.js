@@ -3,7 +3,7 @@ import Link from './Link';
 
 
 
-function Plaid() {
+function Plaid({setThankYou, thankYou}) {
     const [startLink, setStartLink] = useState(false)
     const [linkToken, setLinkToken] = useState(null);
 
@@ -33,8 +33,11 @@ function Plaid() {
 
     return(
       <div>
-        {linkToken && <Link linkToken={linkToken} />}
+        <br></br>
         <button className="profileBtn" onClick={handleStartLink}>Link Your Bank Account</button>
+        <br></br>
+        {linkToken && <Link thankYou={thankYou} setThankYou={setThankYou} linkToken={linkToken} />}
+        <br></br>
       </div>
     )
 };

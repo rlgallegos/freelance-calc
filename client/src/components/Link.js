@@ -1,6 +1,6 @@
 import { usePlaidLink } from 'react-plaid-link';
 
-function Link({linkToken}) {
+function Link({linkToken, setThankYou, thankYou}) {
 
     // 'Set-Cookie','cross-site-cookie=bar; SameSite=None; Secure'
 
@@ -8,6 +8,7 @@ const { open, ready } = usePlaidLink({
   token: linkToken,
   onSuccess: (public_token, metadata) => {
     console.log('onSuccess callback successfully reached')
+    setThankYou(true)
     // send public_token to server
     fetch('/exchange_public_token', {
         method: "POST",
@@ -25,9 +26,14 @@ const { open, ready } = usePlaidLink({
 
 
 return (
-  <button className="profileBtn" onClick={() => open()} disabled={!ready}>
+  <>
+    <button className="profileBtn" onClick={() => open()} disabled={!ready}>
     Connect a bank account
   </button>
+  <br></br>
+  </>
+
+
 );
 
 }
