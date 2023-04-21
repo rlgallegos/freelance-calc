@@ -14,7 +14,7 @@ function UpdateIncome({username}) {
 
     return (
         <div>
-            <button className="profileBtn" onClick={handleClick}>Update Your Income post user token</button>
+            <button className="profileBtn" onClick={handleClick}>Update Income</button>
         </div>
     )
 }

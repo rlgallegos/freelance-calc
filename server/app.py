@@ -238,7 +238,7 @@ api.add_resource(UserByID, '/users/<int:id>', endpoint='users_by_id')
 def create_link_token():
     # Get the client_user_id by searching for the current user
     user = User.query.filter(User.id == session['user_id']).first()
-    unique_id = user.id + 1010
+    unique_id = user.id + 105656
     client_user_id = str(unique_id)
     user.plaid_id = client_user_id
     db.session.add(user)
@@ -315,12 +315,12 @@ def exchange_public_token():
 @app.route('/user_token', methods=['POST'])
 def get_user_token():
     user = User.query.filter(User.id == session['user_id']).first()
-    unique_id = (user.id + 2010)
+    unique_id = (user.id + 2010567)
     client_user_id = str(unique_id)
 
 
     request = UserCreateRequest(
-        client_user_id=str(user.id),
+        client_user_id=str(client_user_id),
         client_id="643d947ffcfd210012e71a2f",
         secret="8dae0930715056a722a284658a5748",
     )

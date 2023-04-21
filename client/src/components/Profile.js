@@ -53,17 +53,21 @@ function Profile(){
                 <div className="buttonsContainer">
                     <h3 className="buttonsContainerText">Connect To Your Bank!</h3>
                     <div>Connecting to your bank allows for accurate information!</div>
-                    <br></br>
-                    {userInfo && <ConnectIncome userInfo={userInfo} />}
-                    <Plaid thankYou={thankYou} setThankYou={setThankYou} />
-                    <br></br>
+
+                    <div className='profile-button-container'>
+                        {userInfo && <ConnectIncome userInfo={userInfo} />}
+                        <Plaid thankYou={thankYou} setThankYou={setThankYou} />
+                    </div>
+
+                
                     <div className="buttonsContainerSubText">If you feel that your current information is out of date,</div>
                     <div className="buttonsContainerSubText">please feel free to update by choosing the options below</div>
-                    <br/>
+                    {/* {thankYou && <p>Thank you for linking your account!</p>} */}
+                    <div className='profile-button-container'>
+                        {userInfo && <UpdateIncome username={userInfo.username} />}
+                        {userInfo && <UpdateExpenseButton username={userInfo.username} /> }
+                    </div>
 
-                    {thankYou && <p>Thank you for linking your account!</p>}
-                    {userInfo && <UpdateIncome username={userInfo.username} />}
-                    {userInfo && <UpdateExpenseButton username={userInfo.username} /> }
                 </div>
                 <div className="buttonsContainerLower">
                     <LogoutButton />
