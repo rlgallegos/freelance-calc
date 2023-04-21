@@ -36,9 +36,8 @@ function ExpensePieChart(){
 
   return (
     <div>
-        <h3>Expense Breakdown:</h3>
         <h5>The total expense displayed is ${expenseTotal}</h5>
-        <PieChart width={400} height={400}>
+        <PieChart width={400} height={200}>
           <Pie
             dataKey="value"
             isAnimationActive={false}

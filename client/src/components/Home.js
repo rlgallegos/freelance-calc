@@ -57,54 +57,41 @@ function Home(){
         <div>
             <NavBar/>
             <div className='home'>
-
                 <div className='top-container'>
                     <div className='info-container'>
                         <h3>Income Tracker:</h3>
-                        <p>This month's Income: ${monthlyIncome}</p>
-                        <p>Expense Goal: ${expenseTotal}</p>
-                        <div className='net-display'>
-                            <p>Current Net:</p>
-                            {currentNet > 0 ? <p style={{color: '#57C478'}}>+${currentNet}</p> : <p style={{color: '#A40001'}}>-${currentNet*(-1)}</p>}
-                        </div>
+                        <p><b>Income:</b> ${monthlyIncome}</p>
+                        <p><b>Expense Goal:</b> ${expenseTotal}</p>
+                        <p><b>Current Net: </b>{currentNet > 0 ? <span style={{color: '#57C478'}}>+${currentNet}</span> : <span style={{color: '#A40001'}}>-${currentNet*(-1)}</span>}</p>
+                        <br/>
                         {currentNet > 0 ? <p>Congrats! You've met your goal!</p> : null}
-                        <p>Progress Bar:</p>
+                        <p><b>Progress Bar</b></p>
                         <ProgressBar bgcolor={color} completed={completed} />
                         <br/>
-
-
-                        {/* <p>*please note that the expense goal is calculated by last months  expenses</p> */}
-                        
-
                     </div>
                     <div className='info-container'>
                         <h3>Work Hour Tracker:</h3>
-                        <p>Based on your hourly wage of ${hourlyWage}/hr: </p> 
-                        <p>This month, you need {hoursToWorkForMonth} hours of work  this month is needed to meet the expense goal</p>
-                        <p>Hours left to need expense goal: </p>
-                        {currentNet > 0 ? <p>0hrs: You've met your goal!</p> : <p>{hoursToWork} hrs</p>}
-                       
-
+                        <p><b>Hourly Wage:</b> ${hourlyWage}/hr </p> 
+                        <p><b>Monthly Required Hours:</b> {hoursToWorkForMonth} hrs</p>
+                        <p><b>Hours Left:</b> {currentNet > 0 ? "0hrs: You've met your goal!" : `${hoursToWork} hrs`}</p>
+                    </div>
+                    <p className="note">Please note that the expense goal is calculated by last month's expenses</p>
+                </div>
+                <div className='info-container'>
+                    <h3>Monthly Expense Breakdown:</h3>
+                    <ExpensePieChart/>
+                    <div className='categories'>
+                        <p><b>Rent:</b> ${rentExpense}</p>
+                        <p><b>Utilites:</b> ${utilitiesExpense}</p> 
+                        <p><b>Food and Beverages:</b> ${foodAndBeverageExpense}</p>
+                        <p><b>Insurance:</b> ${insuranceExpense}</p>
+                        <p><b>Taxes:</b> ${taxesExpense}</p>
+                        <p><b>Automatic Payments:</b> ${billpayExpense}</p>
                     </div>
                 </div>
- 
-                <div className='info-container'>
-                    <ExpensePieChart/>
-                </div>
-                <div className='info-container'>
-                    <h3>Monthy Breakdown by Category:</h3>
-                    <p>Rent: {rentExpense}</p>
-                    <p>Utilites: {utilitiesExpense}</p> 
-                    <p>Food and Beverages: {foodAndBeverageExpense}</p>
-                    <p>Insurance: {insuranceExpense}</p>
-                    <p>Taxes: {taxesExpense}</p>
-                    <p>Automatic Payemnts: {billpayExpense}</p>
-                </div>
-
             </div>
-            
+            {/* <p className="note">Please note that the expense goal is calculated by last month's expenses</p> */}
         </div>
-
     )
 }
 

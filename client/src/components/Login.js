@@ -66,17 +66,13 @@ function Login(){
 
 
     return(
-        <div>
+        <div className="login">
             <form onSubmit={formik.handleSubmit}>
                 <input name='username' value={formik.values.username} onChange={formik.handleChange} type='text' placeholder='Enter username' />
-                <br />
                 <p style={{color: "red"}}>{formik.errors.username}</p>
-                <br />
                 <input name='password' value={formik.values.password} onChange={formik.handleChange} type='password' placeholder='Enter password' />
-                <br />
                 <p style={{color: "red"}}>{formik.errors.password}</p>
-                <br />
-                <input type='submit' />
+                <input className='loginSubmit' type='submit' value="Login" />
             </form>
         </div>
     )

@@ -15,7 +15,9 @@ function ConnectIncome() {
     }
 
     return (
-        <button onClick={handleClick}>Authorize Income</button>
+        <div>
+            <button className="profileBtn" onClick={handleClick}>Authorize Income</button>
+        </div>
     )
 }
 export default ConnectIncome
