@@ -7,10 +7,10 @@ import '../App.css';
 function NavBar(){
     return(
         <header className='navbar'>
-            <h1 className='navbar-header'> Finance Calulator</h1>
+            <h1 className='navbar-header'> Freelance Calulator</h1>
             <nav className='navbar-routes'>
-                <Link className='link' to='/home'>Home</Link>
-                <Link className='link' to='/profile'>Profile</Link>
+                <Link className="material-symbols-outlined" to='/home'>home</Link>
+                <Link className="material-symbols-outlined" to='/profile'>person</Link>
             </nav>
         </header>
     )

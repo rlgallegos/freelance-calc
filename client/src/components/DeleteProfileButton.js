@@ -14,7 +14,7 @@ function DeleteProfileButton() {
     }
 
     return (
-        <button onClick={handleDeleteProfile}>DELETE PROFILE</button>
+        <button className="deleteProfileBtn" onClick={handleDeleteProfile}>DELETE PROFILE</button>
     )
 }
 export default DeleteProfileButton;

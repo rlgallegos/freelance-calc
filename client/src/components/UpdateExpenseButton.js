@@ -14,7 +14,9 @@ function UpdateExpenseButton({username}) {
     }
 
     return (
-        <button onClick={handleUpdateExpense}>Update Expense</button>
+        <div>
+            <button className="profileBtn" onClick={handleUpdateExpense}>Update Expense</button>
+        </div>
     )
 }
 export default UpdateExpenseButton;
