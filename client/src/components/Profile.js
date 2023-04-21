@@ -54,7 +54,7 @@ function Profile(){
                     <br/>
                     <Plaid />
                     {userInfo && <UpdateIncome username={userInfo.username} />}
-                    {userInfo && <ConnectIncome username={userInfo.username} />}
+                    {userInfo && <ConnectIncome userInfo={userInfo} />}
                     {userInfo && <UpdateExpenseButton username={userInfo.username} /> }
                     {/* Move this to the correct location */}
                     {/* <button onClick={handleStartLink}>Click Me to Start the whole Plaid stuff</button>       */}
