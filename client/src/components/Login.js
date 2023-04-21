@@ -34,61 +34,45 @@ function Login(){
                 },
                 body: JSON.stringify(values)
             })
-        .then(() =>{
-            console.log('here')
-            fetch('/update_income',{
-                method: "PATCH",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(values.username)
-            })
-        })
+        // .then(() =>{
+        //     console.log('here')
+        //     updateIncome(values.username)
+        //     fetch('/update_income',{
+        //         method: "PATCH",
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify(values.username)
+        //     })
+        // })
             .then(() => {
                 navigate('/home')
             })
         }
     })
 
-
-
-
-
-    // function handleSubmit(e) {
-    //     e.preventDefault()
-    //     fetch('/login', {
-    //         method: 'POST',
-    //         headers:  {
+    // function updateIncome(username) {
+    //     fetch('/update_income',{
+    //         method: "PATCH",
+    //         headers: {
     //             'Content-Type': 'application/json'
     //         },
-    //         body: JSON.stringify(formData)
-    //     })
-    //     .then(() =>{
-    //         fetch('/update_income',{
-    //             method: "PATCH"
-    //         })
-    //     })
-    //     .then(() => {
-    //         navigate('/home')
+            // body: JSON.stringify(username)
     //     })
     // }
-    // function handleChange(e) {
-    //     setFormData({...formData, [e.target.name]: e.target.value})
-    // }
+
+
+
 
 
     return(
-        <div>
+        <div className="login">
             <form onSubmit={formik.handleSubmit}>
                 <input name='username' value={formik.values.username} onChange={formik.handleChange} type='text' placeholder='Enter username' />
-                <br />
                 <p style={{color: "red"}}>{formik.errors.username}</p>
-                <br />
                 <input name='password' value={formik.values.password} onChange={formik.handleChange} type='password' placeholder='Enter password' />
-                <br />
                 <p style={{color: "red"}}>{formik.errors.password}</p>
-                <br />
-                <input type='submit' />
+                <input className='loginSubmit' type='submit' value="Login" />
             </form>
         </div>
     )

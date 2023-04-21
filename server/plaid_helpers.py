@@ -1,9 +1,36 @@
 import requests
 import plaid
 from plaid.api import plaid_api
+from plaid.model.credit_bank_income_get_request import CreditBankIncomeGetRequest
+from plaid.model.credit_bank_income_get_request_options import CreditBankIncomeGetRequestOptions
 
 # Expenses Logic
 
+# Token Logic
+
+#Change this to switch to development
+PLAID_ENV = 'sandbox'
+
+# host = plaid.Environment.Sandbox
+
+if PLAID_ENV == 'sandbox':
+    host = plaid.Environment.Sandbox
+
+if PLAID_ENV == 'development':
+    host = plaid.Environment.Development
+
+configuration = plaid.Configuration(
+    host=host,
+    api_key={
+        'clientId': "643d947ffcfd210012e71a2f",
+        'secret': "8dae0930715056a722a284658a5748",
+        'plaidVersion': '2020-09-14'
+    }
+)
+
+
+api_client = plaid.ApiClient(configuration)
+client = plaid_api.PlaidApi(api_client)
 
 # request_body = {
 #   "client_id": "643d947ffcfd210012e71a2f",
@@ -33,7 +60,12 @@ def update_expenses(access_token):
 
     url = 'https://sandbox.plaid.com/transactions/get'
     response = requests.post(url, json=request_body)
+    print('-------------------------')
+    print(response)
+    print(response.json())
+    print('-------------------------')
     response_json = response.json()
+    
 
     fb_list = [ transaction['amount'] for transaction in response_json['transactions'] if 'Food and Beverage' in transaction['category'] or 'Food and Drink' in transaction['category']]
     total_fb = sum(fb_list)
@@ -64,46 +96,34 @@ def update_income(user_token):
     income_url = "https://sandbox.plaid.com/credit/bank_income/get"
     print(user_token)
 
-    income_request_body = {
-        "client_id": "643d947ffcfd210012e71a2f",
-        "secret": "8dae0930715056a722a284658a5748",
-        "user_token": user_token
-    }
+    # income_request_body = {
+    #     "client_id": "643d947ffcfd210012e71a2f",
+    #     "secret": "8dae0930715056a722a284658a5748",
+    #     "user_token": user_token
+    # }
 
-    income_response = requests.post(income_url, json=income_request_body)
-    print(income_response.json())
-    total_income = income_response.json()['bank_income'][0]['bank_income_summary']['historical_summary'][0]['total_amount']
+    # sandbox.plaid.com
+
+
+    request = CreditBankIncomeGetRequest(
+    user_token='user-sandbox-7684898b-97aa-4e5f-91e9-82680cb20b0d',
+    options=CreditBankIncomeGetRequestOptions(
+        count=1
+    )
+    )
+    response = client.credit_bank_income_get(request);
+    print(response)
+
+
+    # income_response = requests.post(income_url, json=income_request_body)
+
+    total_income = response['bank_income'][0]['bank_income_summary']['historical_summary'][0]['total_amount']
     print(total_income)
     return total_income
 
 
 
-# Token Logic
 
-#Change this to switch to development
-PLAID_ENV = 'sandbox'
-
-# host = plaid.Environment.Sandbox
-
-if PLAID_ENV == 'sandbox':
-    host = plaid.Environment.Sandbox
-
-if PLAID_ENV == 'development':
-    host = plaid.Environment.Development
-
-configuration = plaid.Configuration(
-    host=host,
-    api_key={
-        'clientId': "643d947ffcfd210012e71a2f",
-        'secret': "8dae0930715056a722a284658a5748",
-        'plaidVersion': '2020-09-14'
-    }
-)
-
-
-
-api_client = plaid.ApiClient(configuration)
-client = plaid_api.PlaidApi(api_client)
 
 # products = []
 # for product in PLAID_PRODUCTS:

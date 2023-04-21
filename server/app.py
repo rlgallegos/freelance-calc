@@ -55,12 +55,13 @@ class UserByID(Resource):
         data = request.get_json()
 
         for attr in data:
-            setattr(user, attr, data[attr])
+            setattr(user.income[0], attr, data[attr])
         try:
             db.session.add(user)
             db.session.commit()
         except:
             make_response({"Error": "Resource not created"}, 422)
+        print('successfully set in database')
         user_dict = user.to_dict()
         return make_response(user_dict, 200)
 
@@ -75,6 +76,22 @@ class UserByID(Resource):
         except:
             return make_response({"Error": "Resource not deleted"}, 422)
         return make_response({}, 200)
+
+class IncomeByID(Resource):
+    def patch(self, id):
+        user = User.query.filter(User.id == id).first()
+        income = Income.query.filter(Income.id == user.income[0].id).first()
+        wage = request.get_json()['hourly_wage']
+        setattr(income, "hourly_wage", wage)
+        try:
+            db.session.add(income)
+            db.session.commit()
+        except:
+            return {"error": "resource not added"}
+        income_dict = income.to_dict()
+        return income_dict, 200
+
+
 
 
 # Authentication Routes
@@ -151,8 +168,12 @@ class Logout(Resource):
 
 
 class UpdateExpenses(Resource):
-    def get(self):
-        user = User.query.filter(User.id == session['user_id']).first()
+    def post(self):
+        username = request.get_json()
+        print(username)
+        user = User.query.filter(User.username == username).first()
+        print(user.to_dict())
+        # user = User.query.filter(User.id == session['user_id']).first()
         # Clear previous expenses
         Expense.query.filter(Expense.user_id == user.id).delete()
         db.session.commit()
@@ -173,11 +194,14 @@ class UpdateExpenses(Resource):
     
 class UpdateIncome(Resource):
     def patch(self):
-        username = request.get_json()
+        username = request.get_json()['username']
+        print(username)
         user = User.query.filter(User.username == username).first()
+        print(user.to_dict())
         if user.user_token:
+            print('reached here')
             total_income = update_income(user.user_token)
-            income = Income.query.filter(Income.user_id == session['user_id']).first()
+            income = Income.query.filter(Income.user_id == user.id).first()
             setattr(income, 'monthly_total_income', total_income)
             db.session.add(income)
             db.session.commit()
@@ -189,6 +213,7 @@ class UpdateIncome(Resource):
 
 
 # Add Resources
+api.add_resource(IncomeByID, '/income/<int:id>')
 api.add_resource(UpdateIncome, '/update_income')
 api.add_resource(UpdateExpenses, '/update_expenses', endpoint='update_expenses')
 api.add_resource(Logout, '/logout', endpoint='logout')
@@ -211,7 +236,8 @@ api.add_resource(UserByID, '/users/<int:id>', endpoint='users_by_id')
 def create_link_token():
     # Get the client_user_id by searching for the current user
     user = User.query.filter(User.id == session['user_id']).first()
-    client_user_id = str(user.id)
+    unique_id = user.id + 100
+    client_user_id = str(unique_id)
     user.plaid_id = client_user_id
     db.session.add(user)
     db.session.commit()
@@ -264,7 +290,8 @@ def exchange_public_token():
 @app.route('/user_token', methods=['POST'])
 def get_user_token():
     user = User.query.filter(User.id == session['user_id']).first()
-    client_user_id = str(user.id)
+    unique_id = (user.id + 200)
+    client_user_id = str(unique_id)
 
     request = UserCreateRequest(
         client_user_id=str(user.plaid_id)
@@ -279,7 +306,6 @@ def get_user_token():
     res = make_response(response.to_dict())
     res.set_cookie('Secure', 'same-site-cookie', samesite='None')
     return res
-
 
 
 

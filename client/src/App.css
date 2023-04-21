@@ -1,13 +1,239 @@
-.welcomePage {
+/* Color Scheme:
+#0088fe BLUE
+#b977f0 PURPLE
+#ff65c4 PINK
+#ff6c8b SALMON
+#ff9053 ORANGE
+#ffbb28 YELLOW
+
+Blue Scheme:
+#225d91
+#62CDFF
+#97DEFF
+#C9EEFF
+
+*/
+
+/* WELCOME PAGE */
+.welcome-page {
   display: flex;
-  justify-content: space-around;
 }
 
-.signInForm {
+.welcome-page-left {
+  padding: 0 30px
+}
+
+.welcome-page-header {
+  display: flex;
+  justify-content: center;
+}
+
+.welcome-page-header-text {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.welcome-page-header h1 {
+  font-size: 60px;
+  color: #0088fe;
+}
+
+.welcome-page-header h2 {
+  text-align: center;
+  color: #225d91;
+  font-size: 35px;
+}
+
+.bobby{
+  max-width: 25%;
+}
+
+.welcome-page-contents {
+  text-align: center;
+}
+
+.welcome-page-contents-header {
+  color: #225d91;
+  font-size: 25px;
+}
+
+.welcome-page-contents-text{
+  color: #115da0;
+  padding: 5px 150px;
+  font-size: 20px;
+}
+
+.signin {
+  margin: 30px; 
+  padding: 30px;
+  background-color: rgba(151, 222, 255, 0.5);;
+  border-radius: 10px;
+  height: fit-content;
+}
+
+/* LOGIN */
+
+.login form input {
+  border-radius: 5px;
+  border: none;
+}
+
+.login, .signup-button-container {
+  text-align: center;
+}
+
+.loginSubmit {
+  padding: 5px 10px;
+  margin-bottom: 20px;
+}
+
+.signup-button-container button {
+  border: none; 
+  padding: 5px 10px;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  background-color: #62CDFF;
+  color: white;
+  justify-content: space-between;
+}
+      /* adjust the placement of the routes: separate from the 'title' */
+.navbar-header {
+  margin-left: 20px;
+}
+.navbar-routes {
+  padding: 10px;
+  display: flex;
+  justify-content: end; 
+  width: 100px;
+  align-items: center;
+}
+
+.material-symbols-outlined {
+  padding-right: 20px;
+  color: #ffffff;
+  text-decoration: none;
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 700,
+  'GRAD' 0,
+  'opsz' 100
+}
+
+
+/* HOME */
+.home {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+}
+.top-container{
+  flex-direction: row;
+}
+.info-container {
+  text-align: center;
+  margin: 10px 30px;
+  border-radius: 30px;
+  padding: 1rem;
+
+  background-color: rgba(151, 222, 255, 0.5);
+}
+
+.categories {
+  text-align: left;
+  padding-left: 25%;
+}
+
+.note {
+  font-size: 13px;
+  font-style: italic;
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* PROFILE */
+
+.profile {
+  padding: 20px 40px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-.signInForm input {
-  margin-bottom: 5px;
+.buttonsContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(151, 222, 255, 0.5);
+  width: fit-content;
+  padding: 10px 50px;
+  border-radius: 15px;
+}
+
+.buttonsContainer div {
+  text-align: center;
+}
+
+.buttonsContainerText {
+  text-align: center;
+  margin-top: 0;
+}
+
+.buttonsContainerSubText{
+  font-size: 15px;
+  text-align: center;
+}
+
+.editBtn, .logoutBtn, .deleteProfileBtn {
+  margin-left: 10px;
+  border:none;
+  border-radius: 5px;
+  font-size: 17px;
+  padding: 5px 10px;
+}
+
+.deleteProfileBtn {
+  background-color: red;
+  color: #ffffff;
+  margin-top: 50px;
+}
+
+.profileBtn {
+  font-size: 17px;
+  width: 250px;
+  background-color: #0088fe;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+.buttonsContainerLower {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  padding: 40px;
+}
+
+.editHourlyWage {
+  padding-bottom: 20px;
+}
+
+.editHourlyWage form {
+  text-align: center;
+}
+
+.submitHourlyWage {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px; 
 }

@@ -1,19 +1,22 @@
 import { useNavigate } from "react-router-dom"
 
-function UpdateExpenseButton() {
+function UpdateExpenseButton({username}) {
     const nagivate = useNavigate()
-    function handleUpdateExpense() {
+    async function handleUpdateExpense() {
 
-        fetch('/update_expenses')
-        .then(() =>{
-            nagivate('/home')
-        }).catch(err => {
-            console.log(err)
+        await fetch('/update_expenses', {
+            method: "POST",
+            headers: {
+                'Content-Type': "application/json"
+            },
+            body: JSON.stringify(username)
         })
     }
 
     return (
-        <button onClick={handleUpdateExpense}>Update Expense</button>
+        <div>
+            <button className="profileBtn" onClick={handleUpdateExpense}>Update Expense</button>
+        </div>
     )
 }
 export default UpdateExpenseButton;
