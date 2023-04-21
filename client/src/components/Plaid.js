@@ -34,7 +34,7 @@ function Plaid() {
     return(
       <div>
         {linkToken && <Link linkToken={linkToken} />}
-        <button onClick={handleStartLink}>Link Your Bank Account</button>
+        <button className="profileBtn" onClick={handleStartLink}>Link Your Bank Account</button>
       </div>
     )
 };

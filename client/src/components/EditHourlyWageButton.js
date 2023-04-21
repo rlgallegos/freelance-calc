@@ -58,11 +58,11 @@ function EditHourlyWageButton({userID}) {
     // }
 
     return (
-        <div>
+        <div className="editHourlyWage">
             <form onSubmit={formik.handleSubmit}>
                 <input name='hourly_wage' value={formik.values.hourly_wage} onChange={formik.handleChange} type='text' placeholder='Enter new hourly wage' />
                 <p style={{color: "red"}}>{formik.errors.hourly_wage}</p>
-                <input type='submit' />
+                <input className="submitHourlyWage" type='submit' />
             </form>
         </div>
 
