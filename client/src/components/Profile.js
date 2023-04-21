@@ -11,8 +11,10 @@ import Plaid from './Plaid';
 import Link from './Link';
 import ConnectIncome from './ConnectIncome';
 import UpdateIncome from './UpdateIncome';
+// import Link2 from './Link2';
 
 function Profile(){
+    const [incomeLink, setIncomeLink] = useState(null)
     // const [startLink, setStartLink] = useState(false)
     const [userInfo, setUserInfo] = useState()
     // const [linkToken, setLinkToken] = useState(null)
@@ -32,6 +34,14 @@ function Profile(){
     const username = userInfo && userInfo.username
     const hourlyWage = userInfo && userInfo.income[0].hourly_wage
     
+    // function handleUpdateBank() {
+    //     fetch('/income_token', {
+    //         method: "POST"
+    //     }).then(res => res.json())
+    //     .then(data => setIncomeLink(data))
+    // }
+
+
     return(
         <div>
             <NavBar/>
@@ -39,11 +49,13 @@ function Profile(){
             <p>Username: {username}</p>
             <p>Hourly Wage: ${hourlyWage}/hr</p>
             {userInfo && <EditHourlyWageButton userID={userInfo.id} />}
-            {userInfo && <ConnectIncome username={userInfo.username} />}
+            {/* {userInfo && <ConnectIncome username={userInfo.username} />} */}
             {userInfo && <UpdateIncome username={userInfo.username} />}
             {userInfo && <UpdateExpenseButton username={userInfo.username} /> }
             <LogoutButton />
             <DeleteProfileButton/>
+            {/* {incomeLink && <Link2 />} */}
+            {/* <button onClick={handleUpdateBank}>Click me to get your bank info</button> */}
             {/* Move this to the correct location */}
             {/* <button onClick={handleStartLink}>Click Me to Start the whole Plaid stuff</button>       */}
             <Plaid />

@@ -14,7 +14,9 @@ from plaid.model.products import Products
 from plaid.model.country_code import CountryCode
 from plaid.model.item_public_token_exchange_request import ItemPublicTokenExchangeRequest
 from plaid.model.user_create_request import UserCreateRequest
-
+from plaid.model.link_token_create_request_income_verification import LinkTokenCreateRequestIncomeVerification
+from plaid.model.income_verification_source_type import IncomeVerificationSourceType
+from plaid.model.link_token_create_request_income_verification_bank_income import LinkTokenCreateRequestIncomeVerificationBankIncome
 
 # CORS(app)
 
@@ -243,8 +245,25 @@ def create_link_token():
     db.session.commit()
 
     # Create a link_token for the given user
+
+
+
     request = LinkTokenCreateRequest(
-            products=[Products("auth")],
+            products=[Products("auth"), Products('transactions'), Products('income_verification')],
+            user_token=user.user_token,
+            income_verification=LinkTokenCreateRequestIncomeVerification(
+                income_source_types=[IncomeVerificationSourceType('bank')],
+                bank_income=LinkTokenCreateRequestIncomeVerificationBankIncome(
+                    days_requested=180
+                ),
+                # "income_source_types": ["bank"],
+                # "bank_income": {
+                #     "days_requested": 180
+                # }
+            ),
+            # bank_income={
+            #     'days_requested': 180
+            # },
             client_name="Freelance Calculator",
             country_codes=[CountryCode('US')],
             language='en',
@@ -253,6 +272,12 @@ def create_link_token():
                 client_user_id="643d947ffcfd210012e71a2f"
             )
         )
+    
+
+
+
+
+        
 
     response = client.link_token_create(request)
     res = make_response(response.to_dict())
@@ -293,8 +318,11 @@ def get_user_token():
     unique_id = (user.id + 200)
     client_user_id = str(unique_id)
 
+
     request = UserCreateRequest(
-        client_user_id=str(user.plaid_id)
+        client_user_id=str(user.id),
+        client_id="643d947ffcfd210012e71a2f",
+        secret="8dae0930715056a722a284658a5748",
     )
     response = client.user_create(request)
 
@@ -323,6 +351,39 @@ def get_accounts():
   return jsonify(accounts_response.to_dict())
 
 
+
+
+
+
+
+
+# @app.route('/income_token', methods=['POST', 'GET'])
+# def get_income_token():
+#     user = User.query.filter(User.id == session['user_id']).first()
+    
+#     request = {
+#     "client_id": "643d947ffcfd210012e71a2f",
+#     "secret": "8dae0930715056a722a284658a5748",
+#     "user_token": user.user_token,
+#     "webhook": "https://www.genericwebhookurl.com/webhook",
+#     "institution_id": "ins_20",
+#     "initial_products": ["income_verification"],
+#     "options": {
+#         # "webhook": "https://www.genericwebhookurl.com/webhook",
+#         "income_verification": {
+#         "income_source_types": ["bank"],
+#         "bank_income": {
+#             "days_requested": 180
+#             }
+#         }
+#     }
+#     }
+#     print(client.__dict__)
+#     response = client.income_verification_create(request)
+#     res = make_response(response.to_dict())
+
+#     res.set_cookie('Secure', 'same-site-cookie', samesite='None')
+#     return res
 
 
 

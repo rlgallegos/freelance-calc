@@ -13,7 +13,7 @@ function UpdateIncome({username}) {
     }
 
     return (
-        <button onClick={handleClick}>Update Your Income post user token</button>
+        <button onClick={handleClick}>Update Income</button>
     )
 }
 export default UpdateIncome

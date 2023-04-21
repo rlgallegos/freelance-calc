@@ -92,21 +92,21 @@ def update_expenses(access_token):
 
 
 
-def update_income(user_token):
+def update_income(u_token):
     income_url = "https://sandbox.plaid.com/credit/bank_income/get"
-    print(user_token)
+    print(u_token)
 
     # income_request_body = {
     #     "client_id": "643d947ffcfd210012e71a2f",
     #     "secret": "8dae0930715056a722a284658a5748",
-    #     "user_token": user_token
+    #     "u_token": u_token
     # }
 
     # sandbox.plaid.com
 
 
     request = CreditBankIncomeGetRequest(
-    user_token='user-sandbox-7684898b-97aa-4e5f-91e9-82680cb20b0d',
+    user_token=u_token,
     options=CreditBankIncomeGetRequestOptions(
         count=1
     )
