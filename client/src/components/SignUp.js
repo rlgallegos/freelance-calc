@@ -50,11 +50,12 @@ function SignUp(){
     }
 
     return(
-        <div>
-            <h1>
+        <div className='signup-outter-container'>
+        <div className='signup-container'>
+            <h1 className='signup-header'> 
                 Sign Up!
             </h1>
-            <form onSubmit={formik.handleSubmit}>
+            <form className='signup-form' onSubmit={formik.handleSubmit}>
 
                 <input name='username' value={formik.values.username} onChange={formik.handleChange} type='text' placeholder='Enter username' />
                 <br />
@@ -68,8 +69,9 @@ function SignUp(){
                 <br />
                 <p style={{color: "red"}}>{formik.errors.passwordConfirmation}</p>
                 <br />
-                <input type='submit' />
+                <input className='loginSubmit' type='submit' />
             </form>
+        </div>
             
             
             
