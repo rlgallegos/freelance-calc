@@ -11,8 +11,10 @@ import Plaid from './Plaid';
 import Link from './Link';
 import ConnectIncome from './ConnectIncome';
 import UpdateIncome from './UpdateIncome';
+// import Link2 from './Link2';
 
 function Profile(){
+    const [incomeLink, setIncomeLink] = useState(null)
     // const [startLink, setStartLink] = useState(false)
     const [userInfo, setUserInfo] = useState()
     // const [linkToken, setLinkToken] = useState(null)
