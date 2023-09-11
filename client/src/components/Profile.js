@@ -88,10 +88,12 @@ function Profile(){
                     <br></br>
                     <div className="buttonsContainerSubText">If you feel that your current information is out of date,</div>
                     <div className="buttonsContainerSubText">please feel free to update by choosing the options below</div>
-                    <br/>
-                    {userInfo && <UpdateIncome username={userInfo.username} />}
+                    {/* {thankYou && <p>Thank you for linking your account!</p>} */}
+                    <div className='profile-button-container'>
+                        {userInfo && <UpdateIncome username={userInfo.username} />}
+                        {userInfo && <UpdateExpenseButton username={userInfo.username} /> }
+                    </div>
 
-                    {userInfo && <UpdateExpenseButton username={userInfo.username} /> }
                 </div>
                 <div className="buttonsContainerLower">
                     <LogoutButton />

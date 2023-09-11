@@ -259,3 +259,21 @@ button:hover{
   padding: 5px 10px;
   border-radius: 5px; 
 }
+
+.profile-button-container{
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.connect-bank-button{
+  font-size: 17px;
+  width: 250px;
+  background-color: rgb(70, 173, 70);
+  color: #ffffff;
+  font-weight: bold;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
