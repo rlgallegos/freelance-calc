@@ -14,6 +14,9 @@ class User(db.Model, SerializerMixin):
     user_token = db.Column(db.Integer)
     plaid_id = db.Column(db.Integer)
 
+    bank_name = db.Column(db.String)
+    account_name = db.Column(db.String)
+
     serialize_rules = ('-income.user', '-expenses.user', 'access_token', '-_password_hash')
 
     expenses = db.relationship('Expense', back_populates='user')

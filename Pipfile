@@ -13,6 +13,7 @@ requests = "*"
 plaid = "*"
 plaid-python = "*"
 yup = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

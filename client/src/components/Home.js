@@ -16,16 +16,17 @@ function Home(){
         fetch('/check_session')
         .then(res => {
             if (res.ok) {
-                res.json().then(user => setUserInfo(user)).then(() => console.log(userInfo))
+                res.json().then(user => {
+                    console.log(user)
+                    setUserInfo(user)
+                })
             } else {
                 navigate('/')
             }
         })
     }, [])
-    console.log(userInfo)
     
     //Income and Expenses:
-    console.log(userInfo)
 
     const monthlyIncome = userInfo.income && userInfo.income[0].monthly_total_income
     const hourlyWage = userInfo.income && userInfo.income[0].hourly_wage

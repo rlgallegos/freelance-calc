@@ -5,7 +5,6 @@ import * as yup from "yup";
 
 function EditHourlyWageButton({userID}) {
     const navigate = useNavigate()
-    console.log(userID)
 
 
     //Formik Schema Logic

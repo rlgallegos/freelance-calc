@@ -42,17 +42,46 @@ function Profile(){
     function handleClick(){
         setShowEdit(!showEdit)
     }
+
+    function handleTransactions(){
+        fetch('/transactions')
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+        })
+    }
+
+    function handlePayroll(){
+        fetch('/payroll')
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+        })
+    }
     
     return(
         <div>
             <NavBar/>
             <div className="profile">
                 <p><b>Username:</b> {username}</p>
-                <p><b>Hourly Wage:</b> ${hourlyWage}/hr <button class="editBtn" onClick={handleClick}>Edit</button></p>
+                <p><b>Hourly Wage:</b> ${hourlyWage}/hr <button className="editBtn" onClick={handleClick}>Edit</button></p>
                 {showEdit ? <EditHourlyWageButton userID={userInfo.id} /> : null}
                 <div className="buttonsContainer">
-                    <h3 className="buttonsContainerText">Connect To Your Bank!</h3>
-                    <div>Connecting to your bank allows for accurate information!</div>
+                {userInfo && 
+                    <div>
+                        <h4>Currently showing income from: {userInfo.bank_name}- {userInfo.account_name}</h4>
+                    </div>}
+                    <div>
+                        {userInfo && !userInfo.bank_name ?
+                        <> 
+                        <h3 className="buttonsContainerText">Connect To Your Bank</h3>
+                        <p>Connecting to your bank via Plaid</p>
+                        </> :
+                        <>
+                        <h3 className="buttonsContainerText">Connect a Different Bank</h3>
+                        <p>Update to a different bank via Plaid</p>                        
+                        </>}
+                    </div>
                     <br></br>
                     {userInfo && <ConnectIncome userInfo={userInfo} />}
                     <Plaid thankYou={thankYou} setThankYou={setThankYou} />
@@ -60,15 +89,16 @@ function Profile(){
                     <div className="buttonsContainerSubText">If you feel that your current information is out of date,</div>
                     <div className="buttonsContainerSubText">please feel free to update by choosing the options below</div>
                     <br/>
-
-                    {thankYou && <p>Thank you for linking your account!</p>}
                     {userInfo && <UpdateIncome username={userInfo.username} />}
+
                     {userInfo && <UpdateExpenseButton username={userInfo.username} /> }
                 </div>
                 <div className="buttonsContainerLower">
                     <LogoutButton />
                     <DeleteProfileButton/>
                 </div>
+                <button onClick={handleTransactions}>Get Transactions</button>
+                <button onClick={handlePayroll}>Get Payroll</button>
             </div>
         </div>
     )

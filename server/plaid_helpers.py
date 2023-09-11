@@ -3,13 +3,18 @@ import plaid
 from plaid.api import plaid_api
 from plaid.model.credit_bank_income_get_request import CreditBankIncomeGetRequest
 from plaid.model.credit_bank_income_get_request_options import CreditBankIncomeGetRequestOptions
+from plaid.model.credit_payroll_income_get_request import CreditPayrollIncomeGetRequest
+
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 # Expenses Logic
 
 # Token Logic
 
 #Change this to switch to development
-PLAID_ENV = 'sandbox'
+PLAID_ENV = os.environ.get('PLAID_ENV')
 
 # host = plaid.Environment.Sandbox
 
@@ -22,8 +27,8 @@ if PLAID_ENV == 'development':
 configuration = plaid.Configuration(
     host=host,
     api_key={
-        'clientId': "643d947ffcfd210012e71a2f",
-        'secret': "8dae0930715056a722a284658a5748",
+        'clientId': os.environ.get('CLIENT_ID'),
+        'secret': os.environ.get('PLAID_SECRET_KEY'),
         'plaidVersion': '2020-09-14'
     }
 )
@@ -33,8 +38,8 @@ api_client = plaid.ApiClient(configuration)
 client = plaid_api.PlaidApi(api_client)
 
 # request_body = {
-#   "client_id": "643d947ffcfd210012e71a2f",
-#   "secret": "8dae0930715056a722a284658a5748",
+#   "client_id": os.environ.get('CLIENT_ID'),
+#   "secret": os.environ.get('PLAID_SECRET_KEY'),
 #   "access_token": "access-sandbox-453207de-d94f-448f-bb31-87754eb6d213",
 #   "start_date": "2023-03-18",
 #   "end_date": "2023-04-17"
@@ -51,8 +56,8 @@ def update_expenses(access_token):
         return sum(new_list)
 
     request_body = {
-    "client_id": "643d947ffcfd210012e71a2f",
-    "secret": "8dae0930715056a722a284658a5748",
+    "client_id": os.environ.get('CLIENT_ID'),
+    "secret": os.environ.get('PLAID_SECRET_KEY'),
     "access_token": access_token,
     "start_date": "2023-03-18",
     "end_date": "2023-04-17"
@@ -85,8 +90,8 @@ def update_expenses(access_token):
 
 
 # income_request_body = {
-#     "client_id": "643d947ffcfd210012e71a2f",
-#     "secret": "8dae0930715056a722a284658a5748",
+#     "client_id": os.environ.get('CLIENT_ID'),
+#     "secret": os.environ.get('PLAID_SECRET_KEY'),
 #     "user_token": "user-sandbox-7684898b-97aa-4e5f-91e9-82680cb20b0d"
 # }
 
@@ -94,11 +99,11 @@ def update_expenses(access_token):
 
 def update_income(u_token):
     income_url = "https://sandbox.plaid.com/credit/bank_income/get"
-    print(u_token)
+ 
 
     # income_request_body = {
-    #     "client_id": "643d947ffcfd210012e71a2f",
-    #     "secret": "8dae0930715056a722a284658a5748",
+    #     "client_id": os.environ.get('CLIENT_ID'),
+    #     "secret": os.environ.get('PLAID_SECRET_KEY'),
     #     "u_token": u_token
     # }
 
@@ -112,19 +117,41 @@ def update_income(u_token):
     )
     )
     response = client.credit_bank_income_get(request);
-    print(response)
+ 
 
 
     # income_response = requests.post(income_url, json=income_request_body)
+    # print(response)
+    print(response['bank_income'][0]['items'][0]['bank_income_accounts'][0]['name'])
+    print(response['bank_income'][0]['items'][0]['institution_name'])
 
-    total_income = response['bank_income'][0]['bank_income_summary']['historical_summary'][0]['total_amount']
-    print(total_income)
-    return total_income
+    try:
+        account_name = response['bank_income'][0]['items'][0]['bank_income_accounts'][0]['name']
+        bank_name = response['bank_income'][0]['items'][0]['institution_name']
+        total_income = response['bank_income'][0]['bank_income_summary']['historical_summary'][0]['total_amount']
+        print(account_name, bank_name, total_income)
+        res = {
+            'account': account_name,
+            'bank': bank_name,
+            'income': total_income
+        }
+        print(res)
+    except ValueError as e:
+        print(e)
+        return 0
+    return res
 
 
 
-
-
-# products = []
-# for product in PLAID_PRODUCTS:
-#     products.append(Products(product))
+def get_payroll(u_token):
+    print(u_token)
+    print('============================================')
+    request = CreditPayrollIncomeGetRequest(
+        user_token=u_token,
+        secret=os.environ.get('PLAID_SECRET_KEY'),
+        client_id=os.environ.get('CLIENT_ID')
+    )
+    print(request)
+    response = client.credit_payroll_income_get(request)
+    print(response)
+    return response

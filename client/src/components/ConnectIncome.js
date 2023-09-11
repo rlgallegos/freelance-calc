@@ -2,7 +2,8 @@ import { useState } from "react"
 
 
 function ConnectIncome({userInfo}) {
-    const [refresh, setRefresh] = useState(false)
+    const [attempted, setAttempted] = useState(false)
+    const [message, setMessage] = useState(null)
 
     function handleClick() {
         fetch('/user_token', {
@@ -11,16 +12,19 @@ function ConnectIncome({userInfo}) {
         .then(r => {
             if (r.ok) {
                 console.log('Income Correctly Linked')
-                setRefresh(true)
+                setAttempted(true)
+                setMessage('Thank you for setting up a plaid accout!')
             } else {
                 console.log('Failed to Correctly Link')
+                setAttempted(true)
+                r.json().then(data => setMessage(data.error))
             }
         })
     }
-
     return (
         <div>
-            {(!userInfo.user_token & !refresh) ? <button className="profileBtn" onClick={handleClick}>Initialize Plaid Account</button> : <p className="refresh">Thank you for setting up a plaid accout!</p>}
+            {!attempted && <button className="profileBtn" onClick={handleClick}>Initialize Plaid Account</button>}
+            {attempted && <p className="refresh">{message}</p>}
         </div>
     )
 }

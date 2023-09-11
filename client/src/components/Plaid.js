@@ -27,10 +27,6 @@ function Plaid({setThankYou, thankYou}) {
     }, [startLink])
 
 
-    // useEffect(() => {
-    //     generateToken();
-    // }, []);
-
     return(
       <div>
         <br></br>

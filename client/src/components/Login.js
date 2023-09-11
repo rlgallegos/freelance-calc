@@ -51,20 +51,6 @@ function Login(){
         }
     })
 
-    // function updateIncome(username) {
-    //     fetch('/update_income',{
-    //         method: "PATCH",
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-            // body: JSON.stringify(username)
-    //     })
-    // }
-
-
-
-
-
     return(
         <div className="login">
             <form onSubmit={formik.handleSubmit}>

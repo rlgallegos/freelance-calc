@@ -2,9 +2,10 @@ from flask import Flask, request, make_response, session, jsonify
 from flask_restful import Api, Resource
 from config import bcrypt, app
 # from flask_cors import CORS
+import requests
 
 from models import db, User, Income, Category, Expense
-from plaid_helpers import update_expenses, update_income, client
+from plaid_helpers import update_expenses, update_income, client, get_payroll
 
 
 # Plaid Imports
@@ -18,16 +19,18 @@ from plaid.model.link_token_create_request_income_verification import LinkTokenC
 from plaid.model.income_verification_source_type import IncomeVerificationSourceType
 from plaid.model.link_token_create_request_income_verification_bank_income import LinkTokenCreateRequestIncomeVerificationBankIncome
 
+from plaid.model.accounts_get_request import AccountsGetRequest
+
+from dotenv import load_dotenv
+import os
+import json
+
 # CORS(app)
 
 api = Api(app)
+load_dotenv()
 
-app.secret_key = 'bobbyisthebest'
-
-# @app.before_request
-#     def check_login:
-#         if not session['user_id'] and request.endpoint != 'signup':
-#             return {'error', 'Unauthorized'}, 401
+app.secret_key = os.environ.get('FLASK_APP_SECRET_KEY')
 
 class Users(Resource):
     def get(self):
@@ -41,8 +44,6 @@ class UserByID(Resource):
         user = User.query.filter(User.id == id).first()
         if not user:
             make_response({"Error": "User not found"}, 404)
-
-        # Here will go all logic to validate password and username
 
         user_dict = user.to_dict()
         return make_response(user_dict, 200)
@@ -149,7 +150,7 @@ class CheckSession(Resource):
     def get(self):
         user = User.query.filter(User.id == session.get('user_id')).first()
         if user:
-            return user.to_dict(), 200
+            return user.to_dict(rules=('-access_token', '-plaid_id', '-user_token')), 200
         else:
             return {'error': 'Unauthorized'}, 401
 
@@ -197,19 +198,28 @@ class UpdateExpenses(Resource):
 class UpdateIncome(Resource):
     def patch(self):
         username = request.get_json()['username']
-        print(username)
+     
         user = User.query.filter(User.username == username).first()
-        print(user.to_dict())
-        if user.user_token:
-            print('reached here')
-            total_income = update_income(user.user_token)
+
+        if user.user_token and user.access_token:
+            print('entering update_income function')
+            res = update_income(user.user_token)
+            print(res)
+            if not res:
+                return make_response({'success': 'No income source located'})
             income = Income.query.filter(Income.user_id == user.id).first()
-            setattr(income, 'monthly_total_income', total_income)
+            setattr(income, 'monthly_total_income', res['income'])
             db.session.add(income)
             db.session.commit()
-            return
+            
+            user.bank_name = res['bank']
+            user.account_name = res['account']
+            db.session.add(user)
+            db.session.commit()
+
+            return make_response({'success': 'Income successfully updated'}, 200)
         else:
-            return
+            return make_response({'error': 'Initialize Plaid account and link bank account first please.'}, 422)
 
 
 
@@ -232,19 +242,17 @@ api.add_resource(UserByID, '/users/<int:id>', endpoint='users_by_id')
 
 
 
-# Route 1: Creating the Link token
+# This is the Plaid Route that saves the plaid_id
 
 @app.route("/create_link_token", methods=['POST'])
 def create_link_token():
     # Get the client_user_id by searching for the current user
     user = User.query.filter(User.id == session['user_id']).first()
-    unique_id = user.id + 1010
+    unique_id = user.id + 1040
     client_user_id = str(unique_id)
     user.plaid_id = client_user_id
     db.session.add(user)
     db.session.commit()
-
-    # Create a link_token for the given user
 
 
 
@@ -256,28 +264,15 @@ def create_link_token():
                 bank_income=LinkTokenCreateRequestIncomeVerificationBankIncome(
                     days_requested=180
                 ),
-                # "income_source_types": ["bank"],
-                # "bank_income": {
-                #     "days_requested": 180
-                # }
             ),
-            # bank_income={
-            #     'days_requested': 180
-            # },
             client_name="Freelance Calculator",
             country_codes=[CountryCode('US')],
             language='en',
             webhook='https://webhook.example.com',
             user=LinkTokenCreateRequestUser(
-                client_user_id="643d947ffcfd210012e71a2f"
+                client_user_id=str(user.plaid_id)
             )
         )
-    
-
-
-
-
-        
 
     response = client.link_token_create(request)
     res = make_response(response.to_dict())
@@ -287,12 +282,12 @@ def create_link_token():
     return res
 
 
+# This is the Plaid Route that saves an access token 
 
 @app.route('/exchange_public_token', methods=['POST'])
 def exchange_public_token():
     global access_token
     public_token = request.get_json()
-    # public_token = request.form['public_token']
     new_request = ItemPublicTokenExchangeRequest(
       public_token=public_token
     )
@@ -312,17 +307,21 @@ def exchange_public_token():
     return jsonify({'public_token_exchange': 'complete'})
 
 
+# This is the Plaid Route that saves the user token
+
 @app.route('/user_token', methods=['POST'])
 def get_user_token():
     user = User.query.filter(User.id == session['user_id']).first()
-    unique_id = (user.id + 2010)
-    client_user_id = str(unique_id)
+    if user.user_token:
+        return make_response({'error': 'Plaid Account already initialized'}, 422)
 
+    unique_id = (user.id + 2040)
+    client_user_id = str(unique_id)
 
     request = UserCreateRequest(
         client_user_id=str(user.id),
-        client_id="643d947ffcfd210012e71a2f",
-        secret="8dae0930715056a722a284658a5748",
+        client_id=os.environ.get('CLIENT_ID'),
+        secret=os.environ.get('PLAID_SECRET_KEY'),
     )
     response = client.user_create(request)
 
@@ -339,20 +338,49 @@ def get_user_token():
 
 @app.route('/transactions', methods=['GET'])
 def get_accounts():
-  try:
-      request = AccountsGetRequest(
-          access_token=access_token
-      )
-      accounts_response = client.accounts_get(request)
-  except plaid.ApiException as e:
-      response = json.loads(e.body)
-      return jsonify({'error': {'status_code': e.status, 'display_message':
-                      response['error_message'], 'error_code': response['error_code'], 'error_type': response['error_type']}})
-  return jsonify(accounts_response.to_dict())
+    user = User.query.filter(User.id == session['user_id']).first()
+    print(user.access_token)
+    try:
+        request = AccountsGetRequest(
+            access_token=str(user.access_token)
+        )
+        print(request)
+        accounts_response = client.accounts_get(request)
+        print(accounts_response)
+    except:
+        return make_response({'error': 'failed'}, 422)
+#   except plaid.ApiException as e:
+#       response = json.loads(e.body)
+#       return jsonify({'error': {'status_code': e.status, 'display_message':
+#                       response['error_message'], 'error_code': response['error_code'], 'error_type': response['error_type']}})
+    return jsonify(accounts_response.to_dict())
+
+
+@app.route('/payroll', methods=['GET'])
+def get_payroll_from_plaid():
+    user = User.query.filter(User.id == session['user_id']).first()
+    print(user.user_token)
+    data = get_payroll(user.user_token)
+    print(data)
 
 
 
+    # request = {
+    # "client_id": os.environ.get('CLIENT_ID'),
+    # "secret": os.environ.get('PLAID_SECRET_KEY'),
+    # "user_token": user.user_token
+    # }
+    # url = 'https://sandbox.plaid.com/credit/payroll_income/get'
 
+    # response = requests.post(url, json=request)
+
+
+    return
+    # income_request_body = {
+    #     "client_id": os.environ.get('CLIENT_ID'),
+    #     "secret": os.environ.get('PLAID_SECRET_KEY'),
+    #     "u_token": u_token
+    # }
 
 
 
@@ -362,8 +390,8 @@ def get_accounts():
 #     user = User.query.filter(User.id == session['user_id']).first()
     
 #     request = {
-#     "client_id": "643d947ffcfd210012e71a2f",
-#     "secret": "8dae0930715056a722a284658a5748",
+#     "client_id": os.environ.get('CLIENT_ID'),
+#     "secret": os.environ.get('PLAID_SECRET_KEY'),
 #     "user_token": user.user_token,
 #     "webhook": "https://www.genericwebhookurl.com/webhook",
 #     "institution_id": "ins_20",
